@@ -49,12 +49,8 @@ const categories = [
   'Motor Graders',
   'Wheel Loaders',
   'Backhoe Loaders',
-  'Dump Trucks',
   'Compactors and Rollers',
-  'Water Bowsers',
-  'Asphalt Pavers',
-  'Cranes',
-  'Low-Bed Trailers',
+  'Dump Trucks',
 ] as const
 
 type EquipmentItem = {
