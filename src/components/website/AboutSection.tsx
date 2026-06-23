@@ -82,13 +82,6 @@ const certifications = [
   { label: 'Public Procurement Authority', sub: 'SUPPLIER NO: 061568', icon: Award },
 ]
 
-const milestones = [
-  { year: '~2005', text: 'Mr. Raphael Dzisenu established Deralph Engineering Services, laying the foundation for over fifteen years of successful construction and engineering projects.' },
-  { year: 'Sep 2021', text: 'Miai Ltd Company was officially incorporated to complement Deralph Engineering Services, expanding into construction, mining, equipment rentals, and farming services.' },
-  { year: '2022', text: 'Delivered our first major projects under the Miai Ltd banner, quickly building a reputation for quality and reliability across multiple sectors.' },
-  { year: '2023', text: 'Grew our equipment fleet and expanded service offerings, strengthening our position as a topnotch construction and mining solutions provider.' },
-  { year: '2024', text: 'Continued to scale operations and deliver exceptional results, reinforcing our commitment to excellence and client satisfaction.' },
-]
 
 /* ─────────────── component ─────────────── */
 
@@ -309,49 +302,6 @@ export default function AboutSection() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Timeline / Milestones ── */}
-      <section className="py-16 bg-navy text-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="bg-safety-orange/20 text-safety-orange border-safety-orange/30 mb-4">
-              Our Journey
-            </Badge>
-            <h2 className="text-2xl md:text-3xl font-bold">Key Milestones</h2>
-          </div>
-
-          <div className="relative max-w-3xl mx-auto">
-            {/* vertical line */}
-            <div className="absolute left-4 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-white/10" />
-
-            <div className="space-y-10">
-              {milestones.map((m, i) => {
-                const isLeft = i % 2 === 0
-                return (
-                  <div
-                    key={m.year}
-                    className={`relative flex items-start gap-6 ${
-                      isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
-                    }`}
-                  >
-                    {/* dot */}
-                    <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-safety-orange border-4 border-navy z-10" />
-
-                    {/* content card */}
-                    <div className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${isLeft ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
-                      <span className="inline-block text-safety-orange font-bold text-lg mb-1">{m.year}</span>
-                      <p className="text-white/70 text-sm leading-relaxed">{m.text}</p>
-                    </div>
-
-                    {/* spacer for the other side */}
-                    <div className="hidden md:block md:w-[calc(50%-2rem)]" />
-                  </div>
-                )
-              })}
-            </div>
           </div>
         </div>
       </section>
