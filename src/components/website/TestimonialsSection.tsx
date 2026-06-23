@@ -17,7 +17,7 @@ interface Testimonial {
 const fallbackTestimonials: Testimonial[] = [
   {
     id: '1',
-    quote: 'RoadBuild delivered our highway expansion project ahead of schedule and within budget. Their team\'s expertise in earthworks and asphalt paving is unmatched. The quality of their work has exceeded our expectations every time.',
+    quote: 'Miai Ltd delivered our highway expansion project ahead of schedule and within budget. Their team\'s expertise in earthworks and asphalt paving is unmatched. The quality of their work has exceeded our expectations every time.',
     rating: 5,
     clientName: 'James Thompson',
     company: 'Ministry of Transport',
@@ -25,7 +25,7 @@ const fallbackTestimonials: Testimonial[] = [
   },
   {
     id: '2',
-    quote: 'We\'ve relied on RoadBuild for our mining haul road construction for the past 8 years. Their equipment fleet is always in excellent condition, and their operators are some of the best in the industry. A truly reliable partner.',
+    quote: 'We\'ve relied on Miai Ltd for our mining haul road construction for the past 8 years. Their equipment fleet is always in excellent condition, and their operators are some of the best in the industry. A truly reliable partner.',
     rating: 5,
     clientName: 'Sarah Mwangi',
     company: 'Mining Resources Ltd',
@@ -33,7 +33,7 @@ const fallbackTestimonials: Testimonial[] = [
   },
   {
     id: '3',
-    quote: 'The drainage and land grading work completed by RoadBuild on our industrial complex was outstanding. Their attention to detail and commitment to safety standards set them apart from other contractors we\'ve worked with.',
+    quote: 'The drainage and land grading work completed by Miai Ltd on our industrial complex was outstanding. Their attention to detail and commitment to safety standards set them apart from other contractors we\'ve worked with.',
     rating: 5,
     clientName: 'David Chen',
     company: 'Urban Development Corp',
@@ -41,7 +41,7 @@ const fallbackTestimonials: Testimonial[] = [
   },
   {
     id: '4',
-    quote: 'RoadBuild\'s equipment rental service has been a game-changer for our municipal road maintenance program. Fast delivery, well-maintained machines, and excellent technical support whenever we need it.',
+    quote: 'Miai Ltd\'s equipment rental service has been a game-changer for our municipal road maintenance program. Fast delivery, well-maintained machines, and excellent technical support whenever we need it.',
     rating: 4,
     clientName: 'Maria Gonzalez',
     company: 'Municipal Council',
@@ -49,7 +49,7 @@ const fallbackTestimonials: Testimonial[] = [
   },
   {
     id: '5',
-    quote: 'Professional, efficient, and safety-conscious. RoadBuild completed our 45km rural road project through challenging terrain. Their problem-solving capabilities and project management are world-class.',
+    quote: 'Professional, efficient, and safety-conscious. Miai Ltd completed our 45km rural road project through challenging terrain. Their problem-solving capabilities and project management are world-class.',
     rating: 5,
     clientName: 'Ahmed Hassan',
     company: 'National Roads Authority',
@@ -57,7 +57,7 @@ const fallbackTestimonials: Testimonial[] = [
   },
   {
     id: '6',
-    quote: 'We partnered with RoadBuild on a large-scale dam access road project. Their earthmoving capabilities and ability to handle complex logistics in remote areas made the difference. Highly recommended.',
+    quote: 'We partnered with Miai Ltd on a large-scale dam access road project. Their earthmoving capabilities and ability to handle complex logistics in remote areas made the difference. Highly recommended.',
     rating: 5,
     clientName: 'Robert Fischer',
     company: 'Water Authority',

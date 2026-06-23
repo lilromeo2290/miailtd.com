@@ -58,7 +58,7 @@ const leadership = [
     color: 'bg-safety-orange',
     name: 'John Mbeki',
     title: 'Chief Executive Officer',
-    bio: '30+ years in civil engineering and construction management. John founded RoadBuild with a single bulldozer and a vision to build the region\'s most reliable infrastructure company.',
+    bio: '30+ years in civil engineering and construction management. John founded Miai Ltd with a single bulldozer and a vision to build the region\'s most reliable infrastructure company.',
   },
   {
     initials: 'SW',
@@ -97,7 +97,7 @@ const milestones = [
   { year: '2010', text: 'Launched the equipment rental division, expanding our fleet to over 50 machines.' },
   { year: '2015', text: 'Achieved ISO 9001 and ISO 14001 certifications, affirming our commitment to quality and the environment.' },
   { year: '2018', text: 'Expanded operations to three new regional offices, broadening our service coverage area.' },
-  { year: '2021', text: 'Celebrated our 500th completed project — a landmark milestone for the entire RoadBuild family.' },
+  { year: '2021', text: 'Celebrated our 500th completed project — a landmark milestone for the entire Miai Ltd family.' },
   { year: '2024', text: 'Commissioned a new state-of-the-art asphalt plant, doubling our daily production capacity.' },
 ]
 
@@ -131,7 +131,7 @@ export default function AboutSection() {
           </nav>
 
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            About <span className="text-safety-orange">RoadBuild</span> Construction
+            About <span className="text-safety-orange">Miai Ltd</span> Construction
           </h1>
           <p className="text-white/70 text-lg max-w-2xl">
             25+ years building the infrastructure that connects communities, drives commerce, and transforms landscapes.
@@ -153,7 +153,7 @@ export default function AboutSection() {
               </h2>
               <div className="space-y-4 text-steel-grey leading-relaxed">
                 <p>
-                  In 1998, RoadBuild Construction & Equipment was born from a simple belief: that every road,
+                  In 1998, Miai Ltd Construction & Equipment was born from a simple belief: that every road,
                   every foundation, and every parcel of land deserves to be shaped with skill, care, and
                   accountability. What started as a small earthworks contractor with a single bulldozer and a
                   team of five has grown into one of the region&apos;s most trusted infrastructure companies.
@@ -166,7 +166,7 @@ export default function AboutSection() {
                   exceptional results on every job, every time.
                 </p>
                 <p>
-                  Today, RoadBuild is not just a contractor — we are a partner. Governments, mining houses,
+                  Today, Miai Ltd is not just a contractor — we are a partner. Governments, mining houses,
                   commercial developers, and communities across the region rely on us to turn their plans into
                   reality, safely, on time, and on budget.
                 </p>
@@ -371,7 +371,7 @@ export default function AboutSection() {
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-navy mb-4">Ready to Work With Us?</h2>
           <p className="text-steel-grey mb-8 max-w-xl mx-auto">
-            Let&apos;s discuss how RoadBuild can bring your next project to life — safely, efficiently, and to the highest standard.
+            Let&apos;s discuss how Miai Ltd can bring your next project to life — safely, efficiently, and to the highest standard.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button

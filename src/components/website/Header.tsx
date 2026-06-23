@@ -45,7 +45,7 @@ export default function Header() {
             </span>
             <span className="flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5 text-safety-orange" />
-              info@roadsearthworks.com
+              info@miailtd.com
             </span>
             <span className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-safety-orange" />
@@ -70,8 +70,8 @@ export default function Header() {
                 <HardHat className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
               </div>
               <div className="hidden sm:block">
-                <div className="text-lg lg:text-xl font-bold text-navy leading-tight">RoadBuild</div>
-                <div className="text-[10px] lg:text-xs text-steel-grey tracking-wider uppercase">Construction & Equipment</div>
+                <div className="text-lg lg:text-xl font-bold text-navy leading-tight">Miai Ltd</div>
+                <div className="text-[10px] lg:text-xs text-steel-grey tracking-wider uppercase">Company</div>
               </div>
             </button>
 

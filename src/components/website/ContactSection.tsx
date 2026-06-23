@@ -113,9 +113,9 @@ export default function ContactSection() {
       icon: Mail,
       title: 'Email Addresses',
       lines: [
-        'info@roadsearthworks.com',
-        'rentals@roadsearthworks.com',
-        'careers@roadsearthworks.com',
+        'info@miailtd.com',
+        'rentals@miailtd.com',
+        'careers@miailtd.com',
       ],
     },
     {

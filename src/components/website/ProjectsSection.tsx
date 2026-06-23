@@ -494,7 +494,7 @@ function getMockProjects(): ProjectItem[] {
         'Skills transfer to 50+ local trainees',
       ],
       testimonial: {
-        quote: 'RoadBuild Construction has demonstrated exceptional project management capabilities on this critical national infrastructure project. Their commitment to quality and safety is commendable.',
+        quote: 'Miai Ltd Construction has demonstrated exceptional project management capabilities on this critical national infrastructure project. Their commitment to quality and safety is commendable.',
         author: 'Eng. James Moyo',
         role: 'Chief Engineer, Ministry of Transport',
       },
@@ -509,7 +509,7 @@ function getMockProjects(): ProjectItem[] {
       client: 'Freda Rebecca Gold Mine',
       status: 'Completed',
       shortDescription: 'Construction of heavy-duty access roads and haul roads for one of Zimbabwe\'s largest gold mining operations.',
-      description: 'RoadBuild Construction was contracted to design and construct a comprehensive road network for the Freda Rebecca Gold Mine expansion project. This included main access roads capable of supporting 100-tonne mining trucks, as well as internal haul roads connecting the open pit to the processing plant.\n\nThe project required specialized compaction techniques to handle extreme axle loads, and innovative drainage solutions to manage water runoff in the mining environment. All work was completed ahead of schedule with zero lost-time injuries.',
+      description: 'Miai Ltd Construction was contracted to design and construct a comprehensive road network for the Freda Rebecca Gold Mine expansion project. This included main access roads capable of supporting 100-tonne mining trucks, as well as internal haul roads connecting the open pit to the processing plant.\n\nThe project required specialized compaction techniques to handle extreme axle loads, and innovative drainage solutions to manage water runoff in the mining environment. All work was completed ahead of schedule with zero lost-time injuries.',
       duration: '8 months (Mar 2023 - Oct 2023)',
       scopeOfWork: [
         'Construction of 12km main access road (double seal)',
@@ -538,7 +538,7 @@ function getMockProjects(): ProjectItem[] {
         'Enabled 20% increase in mine haulage efficiency',
       ],
       testimonial: {
-        quote: 'The quality of the haul roads constructed by RoadBuild has significantly improved our operational efficiency. Their team\'s understanding of mining requirements was impressive.',
+        quote: 'The quality of the haul roads constructed by Miai Ltd has significantly improved our operational efficiency. Their team\'s understanding of mining requirements was impressive.',
         author: 'Michael Ncube',
         role: 'Operations Director, Freda Rebecca Mine',
       },
@@ -598,7 +598,7 @@ function getMockProjects(): ProjectItem[] {
       client: 'Zimbabwe National Roads Administration (ZINARA)',
       status: 'Completed',
       shortDescription: 'Rehabilitation of 120km deteriorated rural road including re-graveling, drainage improvements, and bridge repairs.',
-      description: 'The Bulawayo-Nkayi road is a vital link connecting rural communities in Matabeleland North to Bulawayo, the region\'s largest city. Years of heavy use and insufficient maintenance had left the road in poor condition, significantly affecting access to markets, healthcare, and education.\n\nRoadBuild was engaged to carry out comprehensive rehabilitation works, including reconstruction of failed sections, improved drainage, bridge repairs, and application of new gravel surfacing. The project included a community-based maintenance training program.',
+      description: 'The Bulawayo-Nkayi road is a vital link connecting rural communities in Matabeleland North to Bulawayo, the region\'s largest city. Years of heavy use and insufficient maintenance had left the road in poor condition, significantly affecting access to markets, healthcare, and education.\n\nMiai Ltd was engaged to carry out comprehensive rehabilitation works, including reconstruction of failed sections, improved drainage, bridge repairs, and application of new gravel surfacing. The project included a community-based maintenance training program.',
       duration: '10 months (Apr 2023 - Feb 2024)',
       scopeOfWork: [
         'Road condition assessment and rehabilitation design',
@@ -638,7 +638,7 @@ function getMockProjects(): ProjectItem[] {
       client: 'Highway Development Corporation',
       status: 'Completed',
       shortDescription: 'Complete site preparation for a 50-hectare industrial park including clearing, grading, and infrastructure installation.',
-      description: 'RoadBuild Construction was responsible for the complete site preparation of a 50-hectare industrial park development in Harare South. The project involved clearing indigenous vegetation, bulk earthworks to achieve design levels, installation of stormwater drainage, and construction of internal road networks.\n\nEnvironmental management was a priority, with comprehensive environmental impact assessments conducted and mitigation measures implemented throughout the project. Topsoil was preserved for later landscaping use.',
+      description: 'Miai Ltd Construction was responsible for the complete site preparation of a 50-hectare industrial park development in Harare South. The project involved clearing indigenous vegetation, bulk earthworks to achieve design levels, installation of stormwater drainage, and construction of internal road networks.\n\nEnvironmental management was a priority, with comprehensive environmental impact assessments conducted and mitigation measures implemented throughout the project. Topsoil was preserved for later landscaping use.',
       duration: '6 months (Sep 2023 - Feb 2024)',
       scopeOfWork: [
         'Environmental impact assessment and management plan',
@@ -668,7 +668,7 @@ function getMockProjects(): ProjectItem[] {
         'Client praised quality of finished platform',
       ],
       testimonial: {
-        quote: 'RoadBuild delivered an exceptional site preparation package. The platform quality exceeded our expectations and the project was completed ahead of schedule.',
+        quote: 'Miai Ltd delivered an exceptional site preparation package. The platform quality exceeded our expectations and the project was completed ahead of schedule.',
         author: 'David Chen',
         role: 'Project Director, Highway Development Corp',
       },
@@ -683,7 +683,7 @@ function getMockProjects(): ProjectItem[] {
       client: 'Zimbabwe National Water Authority (ZINWA)',
       status: 'Ongoing',
       shortDescription: 'Construction of all-weather access road and civil works for the Mutirikwi Dam rehabilitation project.',
-      description: 'This multi-disciplinary project supports the major rehabilitation of the Mutirikwi Dam, Zimbabwe\'s second-largest inland water body. RoadBuild\'s scope includes construction of a 15km all-weather access road, creation of contractor staging areas, and various civil engineering works to support the main dam rehabilitation contractor.\n\nThe project operates in an environmentally sensitive area adjacent to Lake Mutirikwi Recreational Park, requiring strict environmental controls and close coordination with wildlife authorities.',
+      description: 'This multi-disciplinary project supports the major rehabilitation of the Mutirikwi Dam, Zimbabwe\'s second-largest inland water body. Miai Ltd\'s scope includes construction of a 15km all-weather access road, creation of contractor staging areas, and various civil engineering works to support the main dam rehabilitation contractor.\n\nThe project operates in an environmentally sensitive area adjacent to Lake Mutirikwi Recreational Park, requiring strict environmental controls and close coordination with wildlife authorities.',
       duration: '18 months (Nov 2023 - Apr 2025)',
       scopeOfWork: [
         'Construction of 15km all-weather access road',

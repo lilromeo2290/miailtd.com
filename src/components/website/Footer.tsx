@@ -60,8 +60,8 @@ export default function Footer() {
                 <HardHat className="w-6 h-6 text-white" />
               </div>
               <div>
-                <div className="text-lg font-bold text-white leading-tight">RoadBuild</div>
-                <div className="text-[10px] text-white/50 tracking-wider uppercase">Construction & Equipment</div>
+                <div className="text-lg font-bold text-white leading-tight">Miai Ltd</div>
+                <div className="text-[10px] text-white/50 tracking-wider uppercase">Company</div>
               </div>
             </div>
             <p className="text-sm text-white/60 mb-6 leading-relaxed">
@@ -126,7 +126,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Mail className="w-4 h-4 text-safety-orange shrink-0" />
-                <span>info@roadsearthworks.com</span>
+                <span>info@miailtd.com</span>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Clock className="w-4 h-4 text-safety-orange shrink-0" />
@@ -165,7 +165,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-white/40">
-          <span>&copy; {new Date().getFullYear()} RoadBuild Construction & Equipment. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} Miai Ltd Company. All rights reserved.</span>
           <div className="flex gap-4">
             <button onClick={() => handleNav('contact')} className="hover:text-safety-orange transition-colors">Privacy Policy</button>
             <button onClick={() => handleNav('contact')} className="hover:text-safety-orange transition-colors">Terms & Conditions</button>

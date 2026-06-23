@@ -125,7 +125,7 @@ export default function HSESection() {
                     Our Safety Philosophy
                   </h2>
                   <p className="text-navy/80 text-lg leading-relaxed">
-                    At RoadBuild, safety is not just a policy — it is a core value embedded in
+                    At Miai Ltd, safety is not just a policy — it is a core value embedded in
                     everything we do. We believe every incident is preventable, and every person has
                     the right to go home safely every day.
                   </p>

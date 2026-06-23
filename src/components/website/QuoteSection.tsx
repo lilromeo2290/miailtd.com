@@ -532,7 +532,7 @@ export default function QuoteSection() {
                   <Mail className="mt-0.5 h-5 w-5 shrink-0 text-safety-orange" />
                   <div>
                     <p className="text-sm font-medium text-navy">
-                      quotes@roadsearthworks.com
+                      quotes@miailtd.com
                     </p>
                     <p className="text-xs text-concrete/70">
                       For quote inquiries

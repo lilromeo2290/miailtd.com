@@ -14,12 +14,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RoadBuild Construction & Equipment | Roads, Earthworks & Heavy Equipment Rental",
+  title: "Miai Ltd Company | Roads, Earthworks & Heavy Equipment Rental",
   description: "Leading roads and earthworks construction company providing road construction, excavation, drainage, asphalt paving, and heavy-duty equipment rental services with over 25 years of experience.",
   keywords: ["road construction", "earthworks", "excavation", "heavy equipment rental", "asphalt paving", "drainage systems", "construction company", "bulldozer rental", "excavator rental", "grading", "compaction"],
-  authors: [{ name: "RoadBuild Construction & Equipment" }],
+  authors: [{ name: "Miai Ltd Company" }],
   openGraph: {
-    title: "RoadBuild Construction & Equipment",
+    title: "Miai Ltd Company",
     description: "Expert road construction, earthworks, and heavy equipment rental services delivering excellence across the region.",
     type: "website",
   },
