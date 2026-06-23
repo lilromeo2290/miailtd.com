@@ -67,7 +67,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-sm text-white/60 mb-6 leading-relaxed">
-              Leading roads and earthworks construction company delivering reliable infrastructure solutions and heavy equipment rental services with over 25 years of industry experience.
+              Committed to providing new standards in construction, equipment rentals, and farming services within our catchment areas and beyond.
             </p>
             <div className="flex gap-3">
               {[Facebook, Twitter, Linkedin, Youtube].map((Icon, i) => (
@@ -120,19 +120,19 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm">
                 <MapPin className="w-4 h-4 text-safety-orange mt-0.5 shrink-0" />
-                <span>1234 Industrial Boulevard,<br />Suite 500, Construction District</span>
+                <span>P.O. Box KIA 9709 Airport, Accra<br />Dawhenya off Accra to Aflao Rd</span>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Phone className="w-4 h-4 text-safety-orange shrink-0" />
-                <span>+1 (555) 123-4567</span>
+                <span>024 479 2082 / 024 107 9080</span>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Mail className="w-4 h-4 text-safety-orange shrink-0" />
-                <span>info@miailtd.com</span>
+                <span>miailtd21@gmail.com</span>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Clock className="w-4 h-4 text-safety-orange shrink-0" />
-                <span>Mon - Fri: 7:00 AM - 6:00 PM</span>
+                <span>Mon - Fri: 8:00 AM - 5:00 PM</span>
               </li>
             </ul>
           </div>
