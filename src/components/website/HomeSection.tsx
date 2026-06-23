@@ -5,7 +5,6 @@ import HeroSection from './HeroSection'
 import StatsSection from './StatsSection'
 import ServicesPreview from './ServicesPreview'
 import EquipmentPreview from './EquipmentPreview'
-import TestimonialsSection from './TestimonialsSection'
 import PartnersSection from './PartnersSection'
 import HomeCTASection from './HomeCTASection'
 
@@ -20,7 +19,6 @@ export default function HomeSection() {
       <StatsSection />
       <ServicesPreview />
       <EquipmentPreview />
-      <TestimonialsSection />
       <PartnersSection />
       <HomeCTASection />
     </main>
