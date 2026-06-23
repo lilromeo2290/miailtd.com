@@ -206,8 +206,7 @@ export default function AboutSection() {
                 </div>
                 <h3 className="text-xl font-bold mb-3">Our Vision</h3>
                 <p className="text-white/70 leading-relaxed">
-                  To be the most trusted and capable roads and earthworks contractor in the region, recognized
-                  for innovation, safety, and sustainable practices.
+                  To play a leading role in our area of operations in Ghana and the sub-region.
                 </p>
               </CardContent>
             </Card>
