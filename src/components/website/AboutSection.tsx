@@ -192,8 +192,8 @@ export default function AboutSection() {
                 </div>
                 <h3 className="text-xl font-bold text-navy mb-3">Our Mission</h3>
                 <p className="text-steel-grey leading-relaxed">
-                  To deliver exceptional construction and equipment services that exceed client expectations while
-                  maintaining the highest standards of safety and quality.
+                  We are committed to providing new standards in the construction, equipment rentals, and farming
+                  services within our catchment areas and beyond.
                 </p>
               </CardContent>
             </Card>
