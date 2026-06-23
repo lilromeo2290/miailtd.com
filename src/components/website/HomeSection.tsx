@@ -2,7 +2,6 @@
 
 import { useNavigation } from '@/lib/store'
 import HeroSection from './HeroSection'
-import StatsSection from './StatsSection'
 import ServicesPreview from './ServicesPreview'
 import EquipmentPreview from './EquipmentPreview'
 import PartnersSection from './PartnersSection'
@@ -16,7 +15,6 @@ export default function HomeSection() {
   return (
     <main className="min-h-screen">
       <HeroSection />
-      <StatsSection />
       <ServicesPreview />
       <EquipmentPreview />
       <PartnersSection />
