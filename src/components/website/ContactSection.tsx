@@ -98,31 +98,32 @@ export default function ContactSection() {
   const contactCards = [
     {
       icon: MapPin,
-      title: 'Office Address',
-      lines: ['1234 Industrial Boulevard, Suite 500', 'Construction District'],
+      title: 'Address & Location',
+      lines: [
+        'P.O. Box KIA 9709 Airport, Accra',
+        'Dawhenya off Accra to Aflao Rd',
+        'Asutsuare Kpong Irrigation Scheme Yard',
+      ],
     },
     {
       icon: Phone,
       title: 'Phone Numbers',
       lines: [
-        '+1 (555) 123-4567 (Main)',
-        '+1 (555) 123-4568 (Equipment Rental)',
+        '024 479 2082',
+        '024 107 9080',
+        '024 313 5154',
       ],
     },
     {
       icon: Mail,
-      title: 'Email Addresses',
-      lines: [
-        'info@miailtd.com',
-        'rentals@miailtd.com',
-        'careers@miailtd.com',
-      ],
+      title: 'Email',
+      lines: ['miailtd21@gmail.com'],
     },
     {
       icon: Clock,
       title: 'Business Hours',
       lines: [
-        'Monday - Friday: 7:00 AM - 6:00 PM',
+        'Monday - Friday: 8:00 AM - 5:00 PM',
         'Saturday: 8:00 AM - 1:00 PM',
         'Sunday & Holidays: Closed',
       ],
@@ -351,15 +352,7 @@ export default function ContactSection() {
               )
             })}
 
-            {/* Emergency Contact */}
-            <div className="rounded-lg border-2 border-red-200 bg-red-50 p-4">
-              <p className="text-sm font-semibold text-red-700">
-                🚨 Emergency Contact
-              </p>
-              <p className="mt-1 text-sm text-red-600">
-                For emergencies: <strong>+1 (555) 911-0000</strong> (24/7)
-              </p>
-            </div>
+
           </div>
         </div>
 
@@ -368,10 +361,10 @@ export default function ContactSection() {
           <div className="flex h-64 flex-col items-center justify-center md:h-80">
             <MapPin className="h-12 w-12 text-concrete" />
             <p className="mt-3 text-sm font-medium text-navy/50">
-              Interactive map would be embedded here
+              Dawhenya off Accra to Aflao Rd
             </p>
             <p className="mt-1 text-xs text-navy/30">
-              1234 Industrial Boulevard, Suite 500, Construction District
+              Asutsuare Kpong Irrigation Scheme Yard
             </p>
           </div>
         </div>
