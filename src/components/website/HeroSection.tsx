@@ -102,7 +102,7 @@ export default function HeroSection() {
             }`}
           >
             Building Tomorrow&apos;s{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-safety-orange to-amber-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fd0099] to-[#9e21ef]">
               Infrastructure
             </span>{' '}
             Today

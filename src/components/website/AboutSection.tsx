@@ -177,8 +177,8 @@ export default function AboutSection() {
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl bg-navy-light overflow-hidden flex items-center justify-center">
                 <div className="text-center p-8">
-                  <HardHat className="w-16 h-16 text-safety-orange mx-auto mb-4" />
-                  <p className="text-white/60 text-sm">Company photo — 25+ years of excellence</p>
+                  <img src="/logo.jpg" alt="Miai Ltd" className="w-24 h-24 object-contain mx-auto mb-4 brightness-0 invert" />
+                  <p className="text-white/60 text-sm">25+ years of excellence</p>
                 </div>
               </div>
               {/* floating stat card */}

@@ -1,6 +1,6 @@
 'use client'
 
-import { Phone, Mail, MapPin, Clock, Facebook, Twitter, Linkedin, Youtube, ArrowRight, HardHat } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Facebook, Twitter, Linkedin, Youtube, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useNavigation } from '@/lib/store'
@@ -56,9 +56,11 @@ export default function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-safety-orange rounded-lg flex items-center justify-center">
-                <HardHat className="w-6 h-6 text-white" />
-              </div>
+              <img
+                src="/logo.jpg"
+                alt="Miai Ltd"
+                className="w-10 h-10 object-contain rounded-lg brightness-0 invert"
+              />
               <div>
                 <div className="text-lg font-bold text-white leading-tight">Miai Ltd</div>
                 <div className="text-[10px] text-white/50 tracking-wider uppercase">Company</div>

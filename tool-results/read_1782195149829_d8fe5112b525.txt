@@ -1,0 +1,857 @@
+     1→'use client'
+     2→
+     3→import { useState, useEffect, FormEvent } from 'react'
+     4→import {
+     5→  ArrowLeft,
+     6→  Search,
+     7→  Loader2,
+     8→  UserCheck,
+     9→  CheckCircle2,
+    10→  Clock,
+    11→  Wrench,
+    12→  MapPin,
+    13→  Calendar,
+    14→  DollarSign,
+    15→  Type,
+    16→  MessageSquare,
+    17→  Building2,
+    18→  Phone,
+    19→  Mail,
+    20→  ShieldCheck,
+    21→} from 'lucide-react'
+    22→import { Card, CardContent, CardFooter } from '@/components/ui/card'
+    23→import { Button } from '@/components/ui/button'
+    24→import { Badge } from '@/components/ui/badge'
+    25→import { Input } from '@/components/ui/input'
+    26→import { Label } from '@/components/ui/label'
+    27→import { Textarea } from '@/components/ui/textarea'
+    28→import { Skeleton } from '@/components/ui/skeleton'
+    29→import {
+    30→  Select,
+    31→  SelectContent,
+    32→  SelectItem,
+    33→  SelectTrigger,
+    34→  SelectValue,
+    35→} from '@/components/ui/select'
+    36→import {
+    37→  Table,
+    38→  TableBody,
+    39→  TableCell,
+    40→  TableRow,
+    41→} from '@/components/ui/table'
+    42→import { useNavigation } from '@/lib/store'
+    43→import { toast } from 'sonner'
+    44→
+    45→const categories = [
+    46→  'All',
+    47→  'Excavators',
+    48→  'Bulldozers',
+    49→  'Motor Graders',
+    50→  'Wheel Loaders',
+    51→  'Backhoe Loaders',
+    52→  'Dump Trucks',
+    53→  'Compactors and Rollers',
+    54→  'Water Bowsers',
+    55→  'Asphalt Pavers',
+    56→  'Cranes',
+    57→  'Low-Bed Trailers',
+    58→] as const
+    59→
+    60→type EquipmentItem = {
+    61→  id: string
+    62→  slug: string
+    63→  name: string
+    64→  model: string
+    65→  category: string
+    66→  image: string
+    67→  availability: 'Available' | 'Rented' | 'Maintenance'
+    68→  operatingCapacity: string
+    69→  dailyRate: number | null
+    70→  weeklyRate: number | null
+    71→  monthlyRate: number | null
+    72→  operatorIncluded: boolean
+    73→  specifications: Record<string, string> | null
+    74→  description?: string
+    75→}
+    76→
+    77→const availabilityStyles: Record<string, string> = {
+    78→  Available: 'bg-green-100 text-green-800 border-green-200',
+    79→  Rented: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    80→  Maintenance: 'bg-red-100 text-red-800 border-red-200',
+    81→}
+    82→
+    83→export default function EquipmentSection() {
+    84→  const { selectedEquipment, setEquipment, setPage } = useNavigation()
+    85→  const [activeCategory, setActiveCategory] = useState<string>('All')
+    86→  const [equipment, setEquipmentList] = useState<EquipmentItem[]>([])
+    87→  const [loading, setLoading] = useState(true)
+    88→  const [selectedItem, setSelectedItem] = useState<EquipmentItem | null>(null)
+    89→
+    90→  // Inquiry form state
+    91→  const [formData, setFormData] = useState({
+    92→    fullName: '',
+    93→    company: '',
+    94→    email: '',
+    95→    phone: '',
+    96→    rentalPeriod: '',
+    97→    projectLocation: '',
+    98→    notes: '',
+    99→  })
+   100→  const [submitting, setSubmitting] = useState(false)
+   101→
+   102→  // Fetch equipment
+   103→  useEffect(() => {
+   104→    const fetchEquipment = async () => {
+   105→      setLoading(true)
+   106→      try {
+   107→        const query = activeCategory === 'All' ? '' : `?category=${encodeURIComponent(activeCategory)}`
+   108→        const res = await fetch(`/api/equipment${query}`)
+   109→        if (res.ok) {
+   110→          const data = await res.json()
+   111→          setEquipmentList(data)
+   112→        }
+   113→      } catch {
+   114→        // Fallback mock data if API not ready
+   115→        setEquipmentList(getMockEquipment())
+   116→      } finally {
+   117→        setLoading(false)
+   118→      }
+   119→    }
+   120→    fetchEquipment()
+   121→  }, [activeCategory])
+   122→
+   123→  // Sync selectedEquipment from store
+   124→  useEffect(() => {
+   125→    if (selectedEquipment) {
+   126→      const found = equipment.find((e) => e.slug === selectedEquipment || e.id === selectedEquipment)
+   127→      if (found) setSelectedItem(found)
+   128→    } else {
+   129→      setSelectedItem(null)
+   130→    }
+   131→  }, [selectedEquipment, equipment])
+   132→
+   133→  const handleBack = () => {
+   134→    setEquipment(null)
+   135→    window.scrollTo({ top: 0, behavior: 'smooth' })
+   136→  }
+   137→
+   138→  const handleSubmitInquiry = async (e: FormEvent) => {
+   139→    e.preventDefault()
+   140→    setSubmitting(true)
+   141→    // Simulated submission
+   142→    console.log('Equipment Inquiry Submitted:', {
+   143→      equipment: selectedItem?.name,
+   144→      equipmentModel: selectedItem?.model,
+   145→      ...formData,
+   146→    })
+   147→    await new Promise((r) => setTimeout(r, 1000))
+   148→    setSubmitting(false)
+   149→    toast.success('Inquiry submitted successfully!', {
+   150→      description: `We'll get back to you about the ${selectedItem?.name} shortly.`,
+   151→    })
+   152→    setFormData({
+   153→      fullName: '',
+   154→      company: '',
+   155→      email: '',
+   156→      phone: '',
+   157→      rentalPeriod: '',
+   158→      projectLocation: '',
+   159→      notes: '',
+   160→    })
+   161→  }
+   162→
+   163→  // Detail view
+   164→  if (selectedItem) {
+   165→    const specs = selectedItem.specifications || {}
+   166→    return (
+   167→      <div className="min-h-screen bg-white">
+   168→        {/* Header Bar */}
+   169→        <div className="bg-navy text-white">
+   170→          <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-4">
+   171→            <Button
+   172→              variant="ghost"
+   173→              onClick={handleBack}
+   174→              className="text-white hover:bg-white/10 gap-2"
+   175→            >
+   176→              <ArrowLeft className="w-4 h-4" />
+   177→              Back to Equipment
+   178→            </Button>
+   179→          </div>
+   180→        </div>
+   181→
+   182→        <div className="max-w-7xl mx-auto px-4 py-8">
+   183→          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+   184→            {/* Left: Image + Specs */}
+   185→            <div className="space-y-6">
+   186→              <div className="relative rounded-xl overflow-hidden bg-light-grey aspect-[4/3]">
+   187→                <img
+   188→                  src={selectedItem.image || '/api/placeholder/800/600?text=Equipment'}
+   189→                  alt={selectedItem.name}
+   190→                  className="w-full h-full object-cover"
+   191→                />
+   192→                <Badge
+   193→                  className={`absolute top-4 right-4 text-sm font-semibold border ${availabilityStyles[selectedItem.availability]}`}
+   194→                >
+   195→                  {selectedItem.availability}
+   196→                </Badge>
+   197→              </div>
+   198→
+   199→              {/* Specifications Table */}
+   200→              {Object.keys(specs).length > 0 && (
+   201→                <Card>
+   202→                  <CardContent className="p-0">
+   203→                    <div className="bg-navy text-white px-6 py-4 rounded-t-xl">
+   204→                      <h3 className="text-lg font-semibold flex items-center gap-2">
+   205→                        <Wrench className="w-5 h-5 text-safety-orange" />
+   206→                        Technical Specifications
+   207→                      </h3>
+   208→                    </div>
+   209→                    <Table>
+   210→                      <TableBody>
+   211→                        {Object.entries(specs).map(([key, value]) => (
+   212→                          <TableRow key={key} className="border-b border-concrete last:border-0">
+   213→                            <TableCell className="font-medium text-navy/80 py-3 px-6 bg-light-grey/50 w-2/5">
+   214→                              {key}
+   215→                            </TableCell>
+   216→                            <TableCell className="py-3 px-6 text-navy">{value}</TableCell>
+   217→                          </TableRow>
+   218→                        ))}
+   219→                      </TableBody>
+   220→                    </Table>
+   221→                  </CardContent>
+   222→                </Card>
+   223→              )}
+   224→            </div>
+   225→
+   226→            {/* Right: Info + Form */}
+   227→            <div className="space-y-6">
+   228→              <div>
+   229→                <Badge variant="outline" className="mb-3 text-navy border-concrete">
+   230→                  {selectedItem.category}
+   231→                </Badge>
+   232→                <h1 className="text-2xl md:text-3xl font-bold text-navy">
+   233→                  {selectedItem.name}
+   234→                </h1>
+   235→                <p className="text-steel-grey mt-1 text-lg">{selectedItem.model}</p>
+   236→                {selectedItem.description && (
+   237→                  <p className="text-navy/70 mt-3 leading-relaxed">{selectedItem.description}</p>
+   238→                )}
+   239→              </div>
+   240→
+   241→              {/* Key Info Cards */}
+   242→              <div className="grid grid-cols-2 gap-3">
+   243→                <div className="bg-light-grey rounded-lg p-4 text-center">
+   244→                  <ShieldCheck className="w-5 h-5 text-safety-orange mx-auto mb-1" />
+   245→                  <p className="text-xs text-steel-grey uppercase tracking-wider">Capacity</p>
+   246→                  <p className="text-sm font-semibold text-navy mt-1">{selectedItem.operatingCapacity}</p>
+   247→                </div>
+   248→                <div className="bg-light-grey rounded-lg p-4 text-center">
+   249→                  <CheckCircle2 className="w-5 h-5 text-safety-orange mx-auto mb-1" />
+   250→                  <p className="text-xs text-steel-grey uppercase tracking-wider">Status</p>
+   251→                  <p className="text-sm font-semibold text-navy mt-1">{selectedItem.availability}</p>
+   252→                </div>
+   253→              </div>
+   254→
+   255→              {selectedItem.operatorIncluded && (
+   256→                <div className="flex items-center gap-2 bg-safety-orange/10 border border-safety-orange/30 rounded-lg px-4 py-3">
+   257→                  <UserCheck className="w-5 h-5 text-safety-orange" />
+   258→                  <span className="text-sm font-medium text-navy">Operator Included</span>
+   259→                </div>
+   260→              )}
+   261→
+   262→              {/* Rates */}
+   263→              <Card>
+   264→                <CardContent className="p-6">
+   265→                  <h3 className="text-lg font-semibold text-navy mb-4 flex items-center gap-2">
+   266→                    <DollarSign className="w-5 h-5 text-safety-orange" />
+   267→                    Rental Rates
+   268→                  </h3>
+   269→                  <div className="space-y-3">
+   270→                    {selectedItem.dailyRate !== null && (
+   271→                      <div className="flex justify-between items-center py-2 border-b border-concrete last:border-0">
+   272→                        <span className="text-steel-grey">Daily Rate</span>
+   273→                        <span className="font-semibold text-navy">${selectedItem.dailyRate?.toLocaleString()}/day</span>
+   274→                      </div>
+   275→                    )}
+   276→                    {selectedItem.weeklyRate !== null && (
+   277→                      <div className="flex justify-between items-center py-2 border-b border-concrete last:border-0">
+   278→                        <span className="text-steel-grey">Weekly Rate</span>
+   279→                        <span className="font-semibold text-navy">${selectedItem.weeklyRate?.toLocaleString()}/week</span>
+   280→                      </div>
+   281→                    )}
+   282→                    {selectedItem.monthlyRate !== null && (
+   283→                      <div className="flex justify-between items-center py-2">
+   284→                        <span className="text-steel-grey">Monthly Rate</span>
+   285→                        <span className="font-semibold text-navy">${selectedItem.monthlyRate?.toLocaleString()}/month</span>
+   286→                      </div>
+   287→                    )}
+   288→                  </div>
+   289→                </CardContent>
+   290→              </Card>
+   291→
+   292→              {/* Inquiry Form */}
+   293→              <Card className="border-safety-orange/20">
+   294→                <CardContent className="p-6">
+   295→                  <h3 className="text-lg font-semibold text-navy mb-4 flex items-center gap-2">
+   296→                    <MessageSquare className="w-5 h-5 text-safety-orange" />
+   297→                    Inquire About This Equipment
+   298→                  </h3>
+   299→                  <form onSubmit={handleSubmitInquiry} className="space-y-4">
+   300→                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+   301→                      <div className="space-y-2">
+   302→                        <Label htmlFor="eq-fullname" className="text-navy/80">
+   303→                          <Type className="w-3.5 h-3.5 inline mr-1.5 text-steel-grey" />
+   304→                          Full Name *
+   305→                        </Label>
+   306→                        <Input
+   307→                          id="eq-fullname"
+   308→                          required
+   309→                          value={formData.fullName}
+   310→                          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+   311→                          placeholder="John Doe"
+   312→                          className="border-concrete focus:border-safety-orange"
+   313→                        />
+   314→                      </div>
+   315→                      <div className="space-y-2">
+   316→                        <Label htmlFor="eq-company" className="text-navy/80">
+   317→                          <Building2 className="w-3.5 h-3.5 inline mr-1.5 text-steel-grey" />
+   318→                          Company
+   319→                        </Label>
+   320→                        <Input
+   321→                          id="eq-company"
+   322→                          value={formData.company}
+   323→                          onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+   324→                          placeholder="Company name"
+   325→                          className="border-concrete focus:border-safety-orange"
+   326→                        />
+   327→                      </div>
+   328→                      <div className="space-y-2">
+   329→                        <Label htmlFor="eq-email" className="text-navy/80">
+   330→                          <Mail className="w-3.5 h-3.5 inline mr-1.5 text-steel-grey" />
+   331→                          Email *
+   332→                        </Label>
+   333→                        <Input
+   334→                          id="eq-email"
+   335→                          type="email"
+   336→                          required
+   337→                          value={formData.email}
+   338→                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+   339→                          placeholder="john@company.com"
+   340→                          className="border-concrete focus:border-safety-orange"
+   341→                        />
+   342→                      </div>
+   343→                      <div className="space-y-2">
+   344→                        <Label htmlFor="eq-phone" className="text-navy/80">
+   345→                          <Phone className="w-3.5 h-3.5 inline mr-1.5 text-steel-grey" />
+   346→                          Phone *
+   347→                        </Label>
+   348→                        <Input
+   349→                          id="eq-phone"
+   350→                          type="tel"
+   351→                          required
+   352→                          value={formData.phone}
+   353→                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+   354→                          placeholder="+1 (555) 000-0000"
+   355→                          className="border-concrete focus:border-safety-orange"
+   356→                        />
+   357→                      </div>
+   358→                    </div>
+   359→                    <div className="space-y-2">
+   360→                      <Label htmlFor="eq-period" className="text-navy/80">
+   361→                        <Calendar className="w-3.5 h-3.5 inline mr-1.5 text-steel-grey" />
+   362→                        Rental Period *
+   363→                      </Label>
+   364→                      <Select
+   365→                        value={formData.rentalPeriod}
+   366→                        onValueChange={(val) => setFormData({ ...formData, rentalPeriod: val })}
+   367→                        required
+   368→                      >
+   369→                        <SelectTrigger className="border-concrete focus:border-safety-orange">
+   370→                          <SelectValue placeholder="Select rental period" />
+   371→                        </SelectTrigger>
+   372→                        <SelectContent>
+   373→                          <SelectItem value="daily">Daily</SelectItem>
+   374→                          <SelectItem value="weekly">Weekly</SelectItem>
+   375→                          <SelectItem value="monthly">Monthly</SelectItem>
+   376→                        </SelectContent>
+   377→                      </Select>
+   378→                    </div>
+   379→                    <div className="space-y-2">
+   380→                      <Label htmlFor="eq-location" className="text-navy/80">
+   381→                        <MapPin className="w-3.5 h-3.5 inline mr-1.5 text-steel-grey" />
+   382→                        Project Location *
+   383→                      </Label>
+   384→                      <Input
+   385→                        id="eq-location"
+   386→                        required
+   387→                        value={formData.projectLocation}
+   388→                        onChange={(e) => setFormData({ ...formData, projectLocation: e.target.value })}
+   389→                        placeholder="Project site address"
+   390→                        className="border-concrete focus:border-safety-orange"
+   391→                      />
+   392→                    </div>
+   393→                    <div className="space-y-2">
+   394→                      <Label htmlFor="eq-notes" className="text-navy/80">
+   395→                        <MessageSquare className="w-3.5 h-3.5 inline mr-1.5 text-steel-grey" />
+   396→                        Notes
+   397→                      </Label>
+   398→                      <Textarea
+   399→                        id="eq-notes"
+   400→                        value={formData.notes}
+   401→                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+   402→                        placeholder="Any specific requirements or questions..."
+   403→                        rows={3}
+   404→                        className="border-concrete focus:border-safety-orange resize-none"
+   405→                      />
+   406→                    </div>
+   407→                    <Button
+   408→                      type="submit"
+   409→                      className="w-full bg-safety-orange hover:bg-safety-orange/90 text-white"
+   410→                      disabled={submitting}
+   411→                    >
+   412→                      {submitting ? (
+   413→                        <>
+   414→                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+   415→                          Submitting...
+   416→                        </>
+   417→                      ) : (
+   418→                        'Submit Inquiry'
+   419→                      )}
+   420→                    </Button>
+   421→                  </form>
+   422→                </CardContent>
+   423→              </Card>
+   424→            </div>
+   425→          </div>
+   426→        </div>
+   427→      </div>
+   428→    )
+   429→  }
+   430→
+   431→  // List/Grid view
+   432→  return (
+   433→    <div className="min-h-screen bg-white">
+   434→      {/* Page Header */}
+   435→      <div className="bg-navy text-white py-16 md:py-24">
+   436→        <div className="max-w-7xl mx-auto px-4 text-center">
+   437→          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+   438→            Equipment Rental Fleet
+   439→          </h1>
+   440→          <p className="text-white/70 max-w-2xl mx-auto text-lg">
+   441→            Rent quality heavy equipment maintained to the highest standards. From excavators to
+   442→            dump trucks, we have the right machinery for your construction project.
+   443→          </p>
+   444→        </div>
+   445→      </div>
+   446→
+   447→      <div className="max-w-7xl mx-auto px-4 py-8">
+   448→        {/* Category Filter */}
+   449→        <div className="mb-8">
+   450→          <div className="flex items-center gap-2 mb-4">
+   451→            <Search className="w-5 h-5 text-steel-grey" />
+   452→            <span className="text-sm font-medium text-steel-grey uppercase tracking-wider">
+   453→              Filter by Category
+   454→            </span>
+   455→          </div>
+   456→          <div className="flex flex-wrap gap-2">
+   457→            {categories.map((cat) => (
+   458→              <Button
+   459→                key={cat}
+   460→                variant={activeCategory === cat ? 'default' : 'outline'}
+   461→                onClick={() => setActiveCategory(cat)}
+   462→                className={
+   463→                  activeCategory === cat
+   464→                    ? 'bg-safety-orange hover:bg-safety-orange/90 text-white border-safety-orange'
+   465→                    : 'border-concrete text-navy/70 hover:border-safety-orange hover:text-safety-orange'
+   466→                }
+   467→              >
+   468→                {cat}
+   469→              </Button>
+   470→            ))}
+   471→          </div>
+   472→        </div>
+   473→
+   474→        {/* Equipment Grid */}
+   475→        {loading ? (
+   476→          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+   477→            {Array.from({ length: 6 }).map((_, i) => (
+   478→              <Card key={i} className="overflow-hidden">
+   479→                <Skeleton className="h-48 w-full" />
+   480→                <CardContent className="p-4 space-y-3">
+   481→                  <Skeleton className="h-5 w-3/4" />
+   482→                  <Skeleton className="h-4 w-1/2" />
+   483→                  <Skeleton className="h-4 w-full" />
+   484→                  <div className="flex gap-2">
+   485→                    <Skeleton className="h-8 w-20" />
+   486→                    <Skeleton className="h-8 w-20" />
+   487→                  </div>
+   488→                </CardContent>
+   489→              </Card>
+   490→            ))}
+   491→          </div>
+   492→        ) : equipment.length === 0 ? (
+   493→          <div className="text-center py-20">
+   494→            <Wrench className="w-16 h-16 text-concrete mx-auto mb-4" />
+   495→            <h3 className="text-xl font-semibold text-navy mb-2">No Equipment Found</h3>
+   496→            <p className="text-steel-grey">
+   497→              No equipment available in the &quot;{activeCategory}&quot; category at this time.
+   498→            </p>
+   499→          </div>
+   500→        ) : (
+   501→          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+   502→            {equipment.map((item) => (
+   503→              <Card
+   504→                key={item.id || item.slug}
+   505→                className="group overflow-hidden hover:shadow-lg transition-all duration-300 border-concrete hover:border-safety-orange/30"
+   506→              >
+   507→                <div className="relative overflow-hidden">
+   508→                  <img
+   509→                    src={item.image || '/api/placeholder/600/400?text=Equipment'}
+   510→                    alt={item.name}
+   511→                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+   512→                  />
+   513→                  <Badge
+   514→                    className={`absolute top-3 right-3 text-xs font-semibold border ${availabilityStyles[item.availability]}`}
+   515→                  >
+   516→                    {item.availability === 'Available' && (
+   517→                      <CheckCircle2 className="w-3 h-3 mr-1" />
+   518→                    )}
+   519→                    {item.availability === 'Rented' && (
+   520→                      <Clock className="w-3 h-3 mr-1" />
+   521→                    )}
+   522→                    {item.availability === 'Maintenance' && (
+   523→                      <Wrench className="w-3 h-3 mr-1" />
+   524→                    )}
+   525→                    {item.availability}
+   526→                  </Badge>
+   527→                  {item.operatorIncluded && (
+   528→                    <Badge className="absolute top-3 left-3 bg-navy text-white text-xs border-0">
+   529→                      <UserCheck className="w-3 h-3 mr-1" />
+   530→                      Operator Included
+   531→                    </Badge>
+   532→                  )}
+   533→                </div>
+   534→                <CardContent className="p-5">
+   535→                  <Badge
+   536→                    variant="outline"
+   537→                    className="mb-3 text-xs border-concrete text-steel-grey"
+   538→                  >
+   539→                    {item.category}
+   540→                  </Badge>
+   541→                  <h3 className="text-lg font-semibold text-navy group-hover:text-safety-orange transition-colors">
+   542→                    {item.name}
+   543→                  </h3>
+   544→                  <p className="text-steel-grey text-sm mt-1">{item.model}</p>
+   545→                  <p className="text-navy/60 text-sm mt-2 flex items-center gap-1.5">
+   546→                    <ShieldCheck className="w-3.5 h-3.5 text-safety-orange" />
+   547→                    {item.operatingCapacity}
+   548→                  </p>
+   549→                  <div className="mt-3 flex flex-wrap gap-2 text-xs">
+   550→                    {item.dailyRate !== null && (
+   551→                      <span className="bg-light-grey text-navy/70 px-2.5 py-1 rounded-md font-medium">
+   552→                        ${item.dailyRate?.toLocaleString()}/day
+   553→                      </span>
+   554→                    )}
+   555→                    {item.weeklyRate !== null && (
+   556→                      <span className="bg-light-grey text-navy/70 px-2.5 py-1 rounded-md font-medium">
+   557→                        ${item.weeklyRate?.toLocaleString()}/wk
+   558→                      </span>
+   559→                    )}
+   560→                    {item.monthlyRate !== null && (
+   561→                      <span className="bg-light-grey text-navy/70 px-2.5 py-1 rounded-md font-medium">
+   562→                        ${item.monthlyRate?.toLocaleString()}/mo
+   563→                      </span>
+   564→                    )}
+   565→                  </div>
+   566→                </CardContent>
+   567→                <CardFooter className="px-5 pb-5 pt-0">
+   568→                  <Button
+   569→                    className="w-full bg-safety-orange hover:bg-safety-orange/90 text-white"
+   570→                    onClick={() => {
+   571→                      setEquipment(item.slug || item.id)
+   572→                      window.scrollTo({ top: 0, behavior: 'smooth' })
+   573→                    }}
+   574→                  >
+   575→                    Inquire Now
+   576→                  </Button>
+   577→                </CardFooter>
+   578→              </Card>
+   579→            ))}
+   580→          </div>
+   581→        )}
+   582→      </div>
+   583→    </div>
+   584→  )
+   585→}
+   586→
+   587→// Mock data fallback
+   588→function getMockEquipment(): EquipmentItem[] {
+   589→  return [
+   590→    {
+   591→      id: '1',
+   592→      slug: 'cat-320-excavator',
+   593→      name: 'CAT 320 Excavator',
+   594→      model: 'CAT 320F L',
+   595→      category: 'Excavators',
+   596→      image: '/api/placeholder/600/400?text=CAT+320+Excavator',
+   597→      availability: 'Available',
+   598→      operatingCapacity: '20-ton operating weight, 1.19 m³ bucket',
+   599→      dailyRate: 850,
+   600→      weeklyRate: 4500,
+   601→      monthlyRate: 15000,
+   602→      operatorIncluded: true,
+   603→      specifications: {
+   604→        'Operating Weight': '20,900 kg',
+   605→        'Engine Power': '121 HP',
+   606→        'Max Digging Depth': '6,660 mm',
+   607→        'Bucket Capacity': '1.19 m³',
+   608→        'Max Reach': '9,850 mm',
+   609→        'Tail Swing Radius': '1,750 mm',
+   610→      },
+   611→      description: 'The CAT 320F L is a versatile excavator ideal for general construction, trenching, and material handling.',
+   612→    },
+   613→    {
+   614→      id: '2',
+   615→      slug: 'cat-d8t-bulldozer',
+   616→      name: 'CAT D8T Bulldozer',
+   617→      model: 'CAT D8T',
+   618→      category: 'Bulldozers',
+   619→      image: '/api/placeholder/600/400?text=CAT+D8T+Bulldozer',
+   620→      availability: 'Available',
+   621→      operatingCapacity: '38-ton operating weight, SU blade',
+   622→      dailyRate: 1200,
+   623→      weeklyRate: 6500,
+   624→      monthlyRate: 22000,
+   625→      operatorIncluded: true,
+   626→      specifications: {
+   627→        'Operating Weight': '38,000 kg',
+   628→        'Engine Power': '310 HP',
+   629→        'Blade Capacity': '7.8 m³',
+   630→        'Ground Pressure': '69 kPa',
+   631→        'Track Length': '3,840 mm',
+   632→        'Max Speed': '11.3 km/h',
+   633→      },
+   634→      description: 'The CAT D8T is designed for heavy dozing, fine grading, and land clearing operations.',
+   635→    },
+   636→    {
+   637→      id: '3',
+   638→      slug: 'cat-140m-grader',
+   639→      name: 'CAT 140M Motor Grader',
+   640→      model: 'CAT 140M AWD',
+   641→      category: 'Motor Graders',
+   642→      image: '/api/placeholder/600/400?text=CAT+140M+Grader',
+   643→      availability: 'Rented',
+   644→      operatingCapacity: '14M blade, AWD configuration',
+   645→      dailyRate: 950,
+   646→      weeklyRate: 5200,
+   647→      monthlyRate: 18000,
+   648→      operatorIncluded: true,
+   649→      specifications: {
+   650→        'Operating Weight': '23,600 kg',
+   651→        'Engine Power': '215 HP',
+   652→        'Blade Length': '4,270 mm',
+   653→        'Moldboard Width': '4,270 mm',
+   654→        'Max Speed': '44.7 km/h',
+   655→        'Turning Radius': '7.8 m',
+   656→      },
+   657→    },
+   658→    {
+   659→      id: '4',
+   660→      slug: 'cat-950m-wheel-loader',
+   661→      name: 'CAT 950M Wheel Loader',
+   662→      model: 'CAT 950M',
+   663→      category: 'Wheel Loaders',
+   664→      image: '/api/placeholder/600/400?text=CAT+950M+Loader',
+   665→      availability: 'Available',
+   666→      operatingCapacity: '4.3 m³ bucket capacity',
+   667→      dailyRate: 780,
+   668→      weeklyRate: 4200,
+   669→      monthlyRate: 14000,
+   670→      operatorIncluded: false,
+   671→      specifications: {
+   672→        'Operating Weight': '28,500 kg',
+   673→        'Engine Power': '260 HP',
+   674→        'Bucket Capacity': '4.3 m³',
+   675→        'Breakout Force': '174 kN',
+   676→        'Max Speed': '39.6 km/h',
+   677→        'Dump Height': '3,050 mm',
+   678→      },
+   679→    },
+   680→    {
+   681→      id: '5',
+   682→      slug: 'cat-420f2-backhoe',
+   683→      name: 'CAT 420F2 Backhoe Loader',
+   684→      model: 'CAT 420F2',
+   685→      category: 'Backhoe Loaders',
+   686→      image: '/api/placeholder/600/400?text=CAT+420F2+Backhoe',
+   687→      availability: 'Maintenance',
+   688→      operatingCapacity: '1.0 m³ backhoe bucket',
+   689→      dailyRate: 450,
+   690→      weeklyRate: 2500,
+   691→      monthlyRate: 8500,
+   692→      operatorIncluded: false,
+   693→      specifications: {
+   694→        'Operating Weight': '8,600 kg',
+   695→        'Engine Power': '97 HP',
+   696→        'Backhoe Dig Depth': '5,820 mm',
+   697→        'Loader Bucket': '1.0 m³',
+   698→        'Loader Breakout': '59 kN',
+   699→        'Max Speed': '36 km/h',
+   700→      },
+   701→    },
+   702→    {
+   703→      id: '6',
+   704→      slug: 'volvo-a30g-dump-truck',
+   705→      name: 'Volvo A30G Dump Truck',
+   706→      model: 'Volvo A30G Articulated',
+   707→      category: 'Dump Trucks',
+   708→      image: '/api/placeholder/600/400?text=Volvo+A30G+Dump+Truck',
+   709→      availability: 'Available',
+   710→      operatingCapacity: '28-ton payload capacity',
+   711→      dailyRate: 1100,
+   712→      weeklyRate: 6000,
+   713→      monthlyRate: 20000,
+   714→      operatorIncluded: true,
+   715→      specifications: {
+   716→        'Operating Weight': '54,800 kg',
+   717→        'Payload Capacity': '28,000 kg',
+   718→        'Engine Power': '346 HP',
+   719→        'Heaped Capacity': '17.7 m³',
+   720→        'Max Speed': '53 km/h',
+   721→        'Turning Radius': '8.1 m',
+   722→      },
+   723→    },
+   724→    {
+   725→      id: '7',
+   726→      slug: 'hamm-hd-120-compactor',
+   727→      name: 'Hamm HD+ 120i Compactor',
+   728→      model: 'Hamm HD+ 120i VO',
+   729→      category: 'Compactors and Rollers',
+   730→      image: '/api/placeholder/600/400?text=Hamm+HD+120i+Compactor',
+   731→      availability: 'Available',
+   732→      operatingCapacity: '12-ton drum weight, 2.13m drum width',
+   733→      dailyRate: 520,
+   734→      weeklyRate: 2800,
+   735→      monthlyRate: 9500,
+   736→      operatorIncluded: false,
+   737→      specifications: {
+   738→        'Operating Weight': '12,300 kg',
+   739→        'Drum Width': '2,130 mm',
+   740→        'Drum Diameter': '1,500 mm',
+   741→        'Centrifugal Force': '270 kN',
+   742→        'Frequency': '30/38 Hz',
+   743→        'Amplitude': '1.8/0.9 mm',
+   744→      },
+   745→    },
+   746→    {
+   747→      id: '8',
+   748→      slug: 'cat-500b-water-bowser',
+   749→      name: 'CAT 500B Water Bowser',
+   750→      model: 'CAT 500B (15,000L)',
+   751→      category: 'Water Bowsers',
+   752→      image: '/api/placeholder/600/400?text=CAT+500B+Water+Bowser',
+   753→      availability: 'Rented',
+   754→      operatingCapacity: '15,000L water tank',
+   755→      dailyRate: 380,
+   756→      weeklyRate: 2000,
+   757→      monthlyRate: 7000,
+   758→      operatorIncluded: true,
+   759→      specifications: {
+   760→        'Tank Capacity': '15,000 Liters',
+   761→        'Pump Capacity': '1,500 L/min',
+   762→        'Spray Bar Width': '6,000 mm',
+   763→        'Chassis': 'CAT 500B',
+   764→        'Engine Power': '75 HP',
+   765→        'Max Speed': '40 km/h',
+   766→      },
+   767→    },
+   768→    {
+   769→      id: '9',
+   770→      slug: 'cat-ap1055f-paver',
+   771→      name: 'CAT AP1055F Asphalt Paver',
+   772→      model: 'CAT AP1055F',
+   773→      category: 'Asphalt Pavers',
+   774→      image: '/api/placeholder/600/400?text=CAT+AP1055F+Paver',
+   775→      availability: 'Available',
+   776→      operatingCapacity: '10m paving width, 300 tph capacity',
+   777→      dailyRate: 1300,
+   778→      weeklyRate: 7000,
+   779→      monthlyRate: 24000,
+   780→      operatorIncluded: true,
+   781→      specifications: {
+   782→        'Operating Weight': '19,300 kg',
+   783→        'Engine Power': '174 HP',
+   784→        'Paving Width': '2.5 - 10.0 m',
+   785→        'Paving Speed': '0 - 20 m/min',
+   786→        'Layer Thickness': '15 - 300 mm',
+   787→        'Hopper Capacity': '14.5 tonnes',
+   788→      },
+   789→    },
+   790→    {
+   791→      id: '10',
+   792→      slug: 'liebherr-ltm1100-crane',
+   793→      name: 'Liebherr LTM 1100-4.2 Crane',
+   794→      model: 'Liebherr LTM 1100-4.2',
+   795→      category: 'Cranes',
+   796→      image: '/api/placeholder/600/400?text=Liebherr+LTM+1100+Crane',
+   797→      availability: 'Available',
+   798→      operatingCapacity: '100-ton maximum lifting capacity',
+   799→      dailyRate: 2500,
+   800→      weeklyRate: 14000,
+   801→      monthlyRate: 48000,
+   802→      operatorIncluded: true,
+   803→      specifications: {
+   804→        'Max Lifting Capacity': '100 tonnes',
+   805→        'Max Boom Length': '52 m',
+   806→        'Max Jib Length': '19 m',
+   807→        'Axle Load': '12 t',
+   808→        'Engine Power': '367 HP',
+   809→        'Counterweight': '34.4 tonnes',
+   810→      },
+   811→    },
+   812→    {
+   813→      id: '11',
+   814→      slug: 'man-lowbed-trailer',
+   815→      name: 'MAN TGS 41.480 Low-Bed',
+   816→      model: 'MAN TGS 41.480 + 60T Trailer',
+   817→      category: 'Low-Bed Trailers',
+   818→      image: '/api/placeholder/600/400?text=MAN+LowBed+Trailer',
+   819→      availability: 'Available',
+   820→      operatingCapacity: '60-ton payload, multi-axle trailer',
+   821→      dailyRate: 680,
+   822→      weeklyRate: 3800,
+   823→      monthlyRate: 13000,
+   824→      operatorIncluded: true,
+   825→      specifications: {
+   826→        'Payload Capacity': '60,000 kg',
+   827→        'Trailer Axles': '5 axles',
+   828→        'Engine Power': '480 HP',
+   829→        'Platform Length': '12,500 mm',
+   830→        'Platform Width': '3,000 mm',
+   831→        'Max Speed': '80 km/h',
+   832→      },
+   833→    },
+   834→    {
+   835→      id: '12',
+   836→      slug: 'cat-336-excavator',
+   837→      name: 'CAT 336 Excavator',
+   838→      model: 'CAT 336F L',
+   839→      category: 'Excavators',
+   840→      image: '/api/placeholder/600/400?text=CAT+336+Excavator',
+   841→      availability: 'Available',
+   842→      operatingCapacity: '36-ton operating weight, 1.92 m³ bucket',
+   843→      dailyRate: 1100,
+   844→      weeklyRate: 5800,
+   845→      monthlyRate: 19500,
+   846→      operatorIncluded: true,
+   847→      specifications: {
+   848→        'Operating Weight': '36,400 kg',
+   849→        'Engine Power': '202 HP',
+   850→        'Max Digging Depth': '7,380 mm',
+   851→        'Bucket Capacity': '1.92 m³',
+   852→        'Max Reach': '11,060 mm',
+   853→        'Tail Swing Radius': '2,060 mm',
+   854→      },
+   855→    },
+   856→  ]
+   857→}

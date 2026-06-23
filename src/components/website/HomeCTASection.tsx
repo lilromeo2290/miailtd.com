@@ -15,7 +15,7 @@ export default function HomeCTASection() {
   return (
     <section className="relative py-16 lg:py-24 overflow-hidden">
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-safety-orange via-safety-orange-dark to-orange-700" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#fd0099] via-[#d4007e] to-[#9e21ef]" />
 
       {/* Decorative pattern */}
       <div className="absolute inset-0 opacity-10">
@@ -84,7 +84,7 @@ export default function HomeCTASection() {
             <Button
               size="lg"
               onClick={() => handleNav('quote')}
-              className="bg-white text-safety-orange-dark hover:bg-white/90 text-base px-8 py-6 font-semibold group w-full sm:w-auto lg:w-full"
+              className="bg-white text-[#d4007e] hover:bg-white/90 text-base px-8 py-6 font-semibold group w-full sm:w-auto lg:w-full"
             >
               Request a Free Quote
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -94,7 +94,7 @@ export default function HomeCTASection() {
             <div className="bg-white/15 backdrop-blur-sm rounded-xl p-5 border border-white/20">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-safety-orange-dark" />
+                  <Phone className="w-5 h-5 text-[#9e21ef]" />
                 </div>
                 <div>
                   <p className="text-white/70 text-xs uppercase tracking-wider">Call Us Now</p>

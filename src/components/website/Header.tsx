@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, Phone, Mail, Clock, HardHat, ChevronDown } from 'lucide-react'
+import { Menu, X, Phone, Mail, Clock, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useNavigation, type PageSection } from '@/lib/store'
 
@@ -66,9 +66,11 @@ export default function Header() {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <button onClick={() => handleNav('home')} className="flex items-center gap-3 group">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-navy rounded-lg flex items-center justify-center group-hover:bg-safety-orange transition-colors">
-                <HardHat className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
-              </div>
+              <img
+                src="/logo.jpg"
+                alt="Miai Ltd"
+                className="w-10 h-10 lg:w-12 lg:h-12 object-contain rounded-lg"
+              />
               <div className="hidden sm:block">
                 <div className="text-lg lg:text-xl font-bold text-navy leading-tight">Miai Ltd</div>
                 <div className="text-[10px] lg:text-xs text-steel-grey tracking-wider uppercase">Company</div>

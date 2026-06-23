@@ -1,0 +1,717 @@
+     1→'use client'
+     2→
+     3→import { useState, useEffect } from 'react'
+     4→import {
+     5→  ArrowLeft,
+     6→  MapPin,
+     7→  Building2,
+     8→  Calendar,
+     9→  Clock,
+    10→  CheckCircle2,
+    11→  Wrench,
+    12→  ListChecks,
+    13→  Quote,
+    14→  FolderOpen,
+    15→  Loader2,
+    16→} from 'lucide-react'
+    17→import { Card, CardContent } from '@/components/ui/card'
+    18→import { Button } from '@/components/ui/button'
+    19→import { Badge } from '@/components/ui/badge'
+    20→import { Skeleton } from '@/components/ui/skeleton'
+    21→import { Separator } from '@/components/ui/separator'
+    22→import { useNavigation } from '@/lib/store'
+    23→
+    24→const categories = [
+    25→  'All',
+    26→  'Road Construction',
+    27→  'Road Rehabilitation',
+    28→  'Earthworks',
+    29→  'Site Clearing',
+    30→  'Drainage',
+    31→  'Mining Support',
+    32→  'Civil Engineering',
+    33→] as const
+    34→
+    35→type ProjectItem = {
+    36→  id: string
+    37→  slug: string
+    38→  title: string
+    39→  category: string
+    40→  image: string
+    41→  location: string
+    42→  client: string
+    43→  status: 'Completed' | 'Ongoing'
+    44→  shortDescription: string
+    45→  description: string
+    46→  duration: string
+    47→  scopeOfWork: string[] | null
+    48→  equipmentUsed: string[] | null
+    49→  projectOutcomes: string[] | null
+    50→  testimonial?: {
+    51→    quote: string
+    52→    author: string
+    53→    role: string
+    54→  } | null
+    55→}
+    56→
+    57→const statusStyles: Record<string, string> = {
+    58→  Completed: 'bg-green-100 text-green-800 border-green-200',
+    59→  Ongoing: 'bg-blue-100 text-blue-800 border-blue-200',
+    60→}
+    61→
+    62→export default function ProjectsSection() {
+    63→  const { selectedProject, setProject } = useNavigation()
+    64→  const [activeCategory, setActiveCategory] = useState<string>('All')
+    65→  const [projects, setProjects] = useState<ProjectItem[]>([])
+    66→  const [loading, setLoading] = useState(true)
+    67→  const [selectedItem, setSelectedItem] = useState<ProjectItem | null>(null)
+    68→
+    69→  // Fetch projects
+    70→  useEffect(() => {
+    71→    const fetchProjects = async () => {
+    72→      setLoading(true)
+    73→      try {
+    74→        const query = activeCategory === 'All' ? '' : `?category=${encodeURIComponent(activeCategory)}`
+    75→        const res = await fetch(`/api/projects${query}`)
+    76→        if (res.ok) {
+    77→          const data = await res.json()
+    78→          setProjects(data)
+    79→        }
+    80→      } catch {
+    81→        setProjects(getMockProjects())
+    82→      } finally {
+    83→        setLoading(false)
+    84→      }
+    85→    }
+    86→    fetchProjects()
+    87→  }, [activeCategory])
+    88→
+    89→  // Sync selectedProject from store
+    90→  useEffect(() => {
+    91→    if (selectedProject) {
+    92→      const found = projects.find((p) => p.slug === selectedProject || p.id === selectedProject)
+    93→      if (found) setSelectedItem(found)
+    94→    } else {
+    95→      setSelectedItem(null)
+    96→    }
+    97→  }, [selectedProject, projects])
+    98→
+    99→  const handleBack = () => {
+   100→    setProject(null)
+   101→    window.scrollTo({ top: 0, behavior: 'smooth' })
+   102→  }
+   103→
+   104→  // Detail view
+   105→  if (selectedItem) {
+   106→    return (
+   107→      <div className="min-h-screen bg-white">
+   108→        {/* Header Bar */}
+   109→        <div className="bg-navy text-white">
+   110→          <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-4">
+   111→            <Button
+   112→              variant="ghost"
+   113→              onClick={handleBack}
+   114→              className="text-white hover:bg-white/10 gap-2"
+   115→            >
+   116→              <ArrowLeft className="w-4 h-4" />
+   117→              Back to Projects
+   118→            </Button>
+   119→          </div>
+   120→        </div>
+   121→
+   122→        {/* Hero Image */}
+   123→        <div className="relative w-full h-64 md:h-80 lg:h-[420px] overflow-hidden">
+   124→          <img
+   125→            src={selectedItem.image || '/api/placeholder/1400/600?text=Project'}
+   126→            alt={selectedItem.title}
+   127→            className="w-full h-full object-cover"
+   128→          />
+   129→          <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/30 to-transparent" />
+   130→          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+   131→            <div className="max-w-7xl mx-auto">
+   132→              <div className="flex flex-wrap items-center gap-2 mb-3">
+   133→                <Badge
+   134→                  variant="outline"
+   135→                  className="bg-white/10 text-white border-white/30 backdrop-blur-sm"
+   136→                >
+   137→                  {selectedItem.category}
+   138→                </Badge>
+   139→                <Badge className={`border backdrop-blur-sm ${statusStyles[selectedItem.status]}`}>
+   140→                  {selectedItem.status === 'Completed' && <CheckCircle2 className="w-3 h-3 mr-1" />}
+   141→                  {selectedItem.status === 'Ongoing' && <Clock className="w-3 h-3 mr-1" />}
+   142→                  {selectedItem.status}
+   143→                </Badge>
+   144→              </div>
+   145→              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+   146→                {selectedItem.title}
+   147→              </h1>
+   148→            </div>
+   149→          </div>
+   150→        </div>
+   151→
+   152→        <div className="max-w-7xl mx-auto px-4 py-8">
+   153→          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+   154→            {/* Main Content */}
+   155→            <div className="lg:col-span-2 space-y-8">
+   156→              {/* Project Info Grid */}
+   157→              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+   158→                <div className="bg-light-grey rounded-lg p-4">
+   159→                  <Building2 className="w-5 h-5 text-safety-orange mb-2" />
+   160→                  <p className="text-xs text-steel-grey uppercase tracking-wider">Client</p>
+   161→                  <p className="text-sm font-semibold text-navy mt-1">{selectedItem.client}</p>
+   162→                </div>
+   163→                <div className="bg-light-grey rounded-lg p-4">
+   164→                  <MapPin className="w-5 h-5 text-safety-orange mb-2" />
+   165→                  <p className="text-xs text-steel-grey uppercase tracking-wider">Location</p>
+   166→                  <p className="text-sm font-semibold text-navy mt-1">{selectedItem.location}</p>
+   167→                </div>
+   168→                <div className="bg-light-grey rounded-lg p-4">
+   169→                  <Calendar className="w-5 h-5 text-safety-orange mb-2" />
+   170→                  <p className="text-xs text-steel-grey uppercase tracking-wider">Duration</p>
+   171→                  <p className="text-sm font-semibold text-navy mt-1">{selectedItem.duration}</p>
+   172→                </div>
+   173→                <div className="bg-light-grey rounded-lg p-4">
+   174→                  <FolderOpen className="w-5 h-5 text-safety-orange mb-2" />
+   175→                  <p className="text-xs text-steel-grey uppercase tracking-wider">Category</p>
+   176→                  <p className="text-sm font-semibold text-navy mt-1">{selectedItem.category}</p>
+   177→                </div>
+   178→              </div>
+   179→
+   180→              {/* Full Description */}
+   181→              <div>
+   182→                <h2 className="text-xl font-bold text-navy mb-4">Project Overview</h2>
+   183→                <p className="text-navy/70 leading-relaxed whitespace-pre-line">
+   184→                  {selectedItem.description}
+   185→                </p>
+   186→              </div>
+   187→
+   188→              <Separator className="bg-concrete" />
+   189→
+   190→              {/* Scope of Work */}
+   191→              {selectedItem.scopeOfWork && selectedItem.scopeOfWork.length > 0 && (
+   192→                <div>
+   193→                  <h2 className="text-xl font-bold text-navy mb-4 flex items-center gap-2">
+   194→                    <ListChecks className="w-5 h-5 text-safety-orange" />
+   195→                    Scope of Work
+   196→                  </h2>
+   197→                  <ul className="space-y-3">
+   198→                    {selectedItem.scopeOfWork.map((item, idx) => (
+   199→                      <li key={idx} className="flex items-start gap-3">
+   200→                        <CheckCircle2 className="w-5 h-5 text-safety-orange mt-0.5 flex-shrink-0" />
+   201→                        <span className="text-navy/70">{item}</span>
+   202→                      </li>
+   203→                    ))}
+   204→                  </ul>
+   205→                </div>
+   206→              )}
+   207→
+   208→              <Separator className="bg-concrete" />
+   209→
+   210→              {/* Equipment Used */}
+   211→              {selectedItem.equipmentUsed && selectedItem.equipmentUsed.length > 0 && (
+   212→                <div>
+   213→                  <h2 className="text-xl font-bold text-navy mb-4 flex items-center gap-2">
+   214→                    <Wrench className="w-5 h-5 text-safety-orange" />
+   215→                    Equipment Used
+   216→                  </h2>
+   217→                  <div className="flex flex-wrap gap-2">
+   218→                    {selectedItem.equipmentUsed.map((equip, idx) => (
+   219→                      <Badge
+   220→                        key={idx}
+   221→                        variant="outline"
+   222→                        className="px-3 py-1.5 text-sm border-concrete text-navy/80 bg-light-grey"
+   223→                      >
+   224→                        {equip}
+   225→                      </Badge>
+   226→                    ))}
+   227→                  </div>
+   228→                </div>
+   229→              )}
+   230→
+   231→              <Separator className="bg-concrete" />
+   232→
+   233→              {/* Project Outcomes */}
+   234→              {selectedItem.projectOutcomes && selectedItem.projectOutcomes.length > 0 && (
+   235→                <div>
+   236→                  <h2 className="text-xl font-bold text-navy mb-4 flex items-center gap-2">
+   237→                    <CheckCircle2 className="w-5 h-5 text-safety-orange" />
+   238→                    Project Outcomes
+   239→                  </h2>
+   240→                  <ul className="space-y-3">
+   241→                    {selectedItem.projectOutcomes.map((outcome, idx) => (
+   242→                      <li key={idx} className="flex items-start gap-3">
+   243→                        <div className="w-5 h-5 rounded-full bg-safety-orange/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+   244→                          <CheckCircle2 className="w-3.5 h-3.5 text-safety-orange" />
+   245→                        </div>
+   246→                        <span className="text-navy/70">{outcome}</span>
+   247→                      </li>
+   248→                    ))}
+   249→                  </ul>
+   250→                </div>
+   251→              )}
+   252→            </div>
+   253→
+   254→            {/* Sidebar */}
+   255→            <div className="space-y-6">
+   256→              {/* Testimonial */}
+   257→              {selectedItem.testimonial && (
+   258→                <Card className="border-safety-orange/20 bg-navy">
+   259→                  <CardContent className="p-6">
+   260→                    <Quote className="w-8 h-8 text-safety-orange mb-4 opacity-80" />
+   261→                    <blockquote className="text-white/90 italic leading-relaxed mb-4">
+   262→                      &ldquo;{selectedItem.testimonial.quote}&rdquo;
+   263→                    </blockquote>
+   264→                    <div className="border-t border-white/20 pt-3">
+   265→                      <p className="text-white font-semibold text-sm">
+   266→                        {selectedItem.testimonial.author}
+   267→                      </p>
+   268→                      <p className="text-white/60 text-xs">{selectedItem.testimonial.role}</p>
+   269→                    </div>
+   270→                  </CardContent>
+   271→                </Card>
+   272→              )}
+   273→
+   274→              {/* Quick Info Card */}
+   275→              <Card>
+   276→                <CardContent className="p-6 space-y-4">
+   277→                  <h3 className="font-semibold text-navy">Project Summary</h3>
+   278→                  <div className="space-y-3 text-sm">
+   279→                    <div className="flex justify-between">
+   280→                      <span className="text-steel-grey">Category</span>
+   281→                      <span className="font-medium text-navy">{selectedItem.category}</span>
+   282→                    </div>
+   283→                    <Separator className="bg-concrete" />
+   284→                    <div className="flex justify-between">
+   285→                      <span className="text-steel-grey">Status</span>
+   286→                      <Badge className={`text-xs border ${statusStyles[selectedItem.status]}`}>
+   287→                        {selectedItem.status}
+   288→                      </Badge>
+   289→                    </div>
+   290→                    <Separator className="bg-concrete" />
+   291→                    <div className="flex justify-between">
+   292→                      <span className="text-steel-grey">Client</span>
+   293→                      <span className="font-medium text-navy text-right max-w-[60%]">{selectedItem.client}</span>
+   294→                    </div>
+   295→                    <Separator className="bg-concrete" />
+   296→                    <div className="flex justify-between">
+   297→                      <span className="text-steel-grey">Location</span>
+   298→                      <span className="font-medium text-navy text-right max-w-[60%]">{selectedItem.location}</span>
+   299→                    </div>
+   300→                    <Separator className="bg-concrete" />
+   301→                    <div className="flex justify-between">
+   302→                      <span className="text-steel-grey">Duration</span>
+   303→                      <span className="font-medium text-navy">{selectedItem.duration}</span>
+   304→                    </div>
+   305→                  </div>
+   306→                  <Button
+   307→                    className="w-full bg-safety-orange hover:bg-safety-orange/90 text-white mt-4"
+   308→                    onClick={() => {
+   309→                      setProject(null)
+   310→                      // Navigate to quote page
+   311→                      const { setPage } = useNavigation.getState()
+   312→                      setPage('quote')
+   313→                      window.scrollTo({ top: 0, behavior: 'smooth' })
+   314→                    }}
+   315→                  >
+   316→                    Request Similar Project
+   317→                  </Button>
+   318→                </CardContent>
+   319→              </Card>
+   320→            </div>
+   321→          </div>
+   322→        </div>
+   323→      </div>
+   324→    )
+   325→  }
+   326→
+   327→  // Grid view
+   328→  return (
+   329→    <div className="min-h-screen bg-white">
+   330→      {/* Page Header */}
+   331→      <div className="bg-navy text-white py-16 md:py-24">
+   332→        <div className="max-w-7xl mx-auto px-4 text-center">
+   333→          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+   334→            Projects Portfolio
+   335→          </h1>
+   336→          <p className="text-white/70 max-w-2xl mx-auto text-lg">
+   337→            Showcasing our completed and ongoing construction projects
+   338→          </p>
+   339→        </div>
+   340→      </div>
+   341→
+   342→      <div className="max-w-7xl mx-auto px-4 py-8">
+   343→        {/* Category Filter */}
+   344→        <div className="mb-8">
+   345→          <div className="flex items-center gap-2 mb-4">
+   346→            <FolderOpen className="w-5 h-5 text-steel-grey" />
+   347→            <span className="text-sm font-medium text-steel-grey uppercase tracking-wider">
+   348→              Filter by Category
+   349→            </span>
+   350→          </div>
+   351→          <div className="flex flex-wrap gap-2">
+   352→            {categories.map((cat) => (
+   353→              <Button
+   354→                key={cat}
+   355→                variant={activeCategory === cat ? 'default' : 'outline'}
+   356→                onClick={() => setActiveCategory(cat)}
+   357→                className={
+   358→                  activeCategory === cat
+   359→                    ? 'bg-safety-orange hover:bg-safety-orange/90 text-white border-safety-orange'
+   360→                    : 'border-concrete text-navy/70 hover:border-safety-orange hover:text-safety-orange'
+   361→                }
+   362→              >
+   363→                {cat}
+   364→              </Button>
+   365→            ))}
+   366→          </div>
+   367→        </div>
+   368→
+   369→        {/* Project Grid */}
+   370→        {loading ? (
+   371→          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+   372→            {Array.from({ length: 6 }).map((_, i) => (
+   373→              <Card key={i} className="break-inside-avoid overflow-hidden">
+   374→                <Skeleton className="h-48 w-full" />
+   375→                <CardContent className="p-4 space-y-3">
+   376→                  <Skeleton className="h-4 w-20" />
+   377→                  <Skeleton className="h-5 w-3/4" />
+   378→                  <Skeleton className="h-4 w-1/2" />
+   379→                  <Skeleton className="h-4 w-full" />
+   380→                  <Skeleton className="h-8 w-28" />
+   381→                </CardContent>
+   382→              </Card>
+   383→            ))}
+   384→          </div>
+   385→        ) : projects.length === 0 ? (
+   386→          <div className="text-center py-20">
+   387→            <FolderOpen className="w-16 h-16 text-concrete mx-auto mb-4" />
+   388→            <h3 className="text-xl font-semibold text-navy mb-2">No Projects Found</h3>
+   389→            <p className="text-steel-grey">
+   390→              No projects available in the &quot;{activeCategory}&quot; category at this time.
+   391→            </p>
+   392→          </div>
+   393→        ) : (
+   394→          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+   395→            {projects.map((item) => (
+   396→              <Card
+   397→                key={item.id || item.slug}
+   398→                className="group break-inside-avoid overflow-hidden hover:shadow-lg transition-all duration-300 border-concrete hover:border-safety-orange/30 cursor-pointer"
+   399→                onClick={() => {
+   400→                  setProject(item.slug || item.id)
+   401→                  window.scrollTo({ top: 0, behavior: 'smooth' })
+   402→                }}
+   403→              >
+   404→                <div className="relative overflow-hidden">
+   405→                  <img
+   406→                    src={item.image || '/api/placeholder/600/400?text=Project'}
+   407→                    alt={item.title}
+   408→                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+   409→                  />
+   410→                  <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+   411→                    <Badge className="text-xs font-medium bg-navy text-white border-0">
+   412→                      {item.category}
+   413→                    </Badge>
+   414→                    <Badge className={`text-xs font-semibold border ${statusStyles[item.status]}`}>
+   415→                      {item.status}
+   416→                    </Badge>
+   417→                  </div>
+   418→                </div>
+   419→                <CardContent className="p-5">
+   420→                  <h3 className="text-lg font-semibold text-navy group-hover:text-safety-orange transition-colors mb-2">
+   421→                    {item.title}
+   422→                  </h3>
+   423→                  <div className="flex items-center gap-3 text-sm text-steel-grey mb-3">
+   424→                    <span className="flex items-center gap-1">
+   425→                      <MapPin className="w-3.5 h-3.5" />
+   426→                      {item.location}
+   427→                    </span>
+   428→                    <span className="text-concrete">|</span>
+   429→                    <span className="flex items-center gap-1">
+   430→                      <Building2 className="w-3.5 h-3.5" />
+   431→                      {item.client}
+   432→                    </span>
+   433→                  </div>
+   434→                  <p className="text-navy/60 text-sm leading-relaxed line-clamp-3 mb-4">
+   435→                    {item.shortDescription}
+   436→                  </p>
+   437→                  <Button
+   438→                    variant="outline"
+   439→                    className="border-safety-orange text-safety-orange hover:bg-safety-orange hover:text-white transition-colors"
+   440→                  >
+   441→                    View Details
+   442→                  </Button>
+   443→                </CardContent>
+   444→              </Card>
+   445→            ))}
+   446→          </div>
+   447→        )}
+   448→      </div>
+   449→    </div>
+   450→  )
+   451→}
+   452→
+   453→// Mock data fallback
+   454→function getMockProjects(): ProjectItem[] {
+   455→  return [
+   456→    {
+   457→      id: '1',
+   458→      slug: 'harare-mutare-highway',
+   459→      title: 'Harare-Mutare Highway Duplication',
+   460→      category: 'Road Construction',
+   461→      image: '/api/placeholder/600/400?text=Harare+Mutare+Highway',
+   462→      location: 'Harare to Mutare, Zimbabwe',
+   463→      client: 'Ministry of Transport & Infrastructure',
+   464→      status: 'Ongoing',
+   465→      shortDescription: 'Major highway duplication project spanning 280km, involving earthworks, drainage systems, and asphalt surfacing.',
+   466→      description: 'This landmark project involves the full duplication of the Harare-Mutare highway, one of Zimbabwe\'s most critical transport corridors. The project spans 280 kilometers and includes comprehensive earthworks, construction of new drainage systems, installation of culverts and bridges, and full asphalt surfacing.\n\nThe project is being executed in phases to minimize disruption to existing traffic while maintaining the highest construction standards. Our team deployed a fleet of over 30 pieces of heavy machinery and employed over 200 workers during peak construction periods.',
+   467→      duration: '24 months (Jan 2024 - Dec 2025)',
+   468→      scopeOfWork: [
+   469→        'Site clearing and grubbing of 280km corridor',
+   470→        'Bulk earthworks: 2.5 million cubic meters cut and fill',
+   471→        'Construction of 45 reinforced concrete culverts',
+   472→        'Installation of 8 bridge structures',
+   473→        'Base course and sub-base construction',
+   474→        'Prime coat and tack coat application',
+   475→        '50mm asphalt wearing course surfacing',
+   476→        'Road marking and signage installation',
+   477→        'Construction of 6 passing lanes at key locations',
+   478→        'Erosion control and environmental rehabilitation',
+   479→      ],
+   480→      equipmentUsed: [
+   481→        'CAT D8T Bulldozer (x4)',
+   482→        'CAT 336F L Excavator (x6)',
+   483→        'CAT 140M Motor Grader (x4)',
+   484→        'CAT AP1055F Asphalt Paver (x3)',
+   485→        'Volvo A30G Dump Truck (x12)',
+   486→        'Hamm HD+ 120i Compactor (x4)',
+   487→        'CAT 500B Water Bowser (x3)',
+   488→      ],
+   489→      projectOutcomes: [
+   490→        'Improved road safety with dual carriageway',
+   491→        'Reduced travel time by estimated 35%',
+   492→        'Increased cargo capacity for commercial vehicles',
+   493→        'Created 200+ direct employment opportunities',
+   494→        'Skills transfer to 50+ local trainees',
+   495→      ],
+   496→      testimonial: {
+   497→        quote: 'Miai Ltd Construction has demonstrated exceptional project management capabilities on this critical national infrastructure project. Their commitment to quality and safety is commendable.',
+   498→        author: 'Eng. James Moyo',
+   499→        role: 'Chief Engineer, Ministry of Transport',
+   500→      },
+   501→    },
+   502→    {
+   503→      id: '2',
+   504→      slug: 'bindura-gold-mine-earthworks',
+   505→      title: 'Bindura Gold Mine Access Roads',
+   506→      category: 'Mining Support',
+   507→      image: '/api/placeholder/600/400?text=Bindura+Gold+Mine',
+   508→      location: 'Bindura, Zimbabwe',
+   509→      client: 'Freda Rebecca Gold Mine',
+   510→      status: 'Completed',
+   511→      shortDescription: 'Construction of heavy-duty access roads and haul roads for one of Zimbabwe\'s largest gold mining operations.',
+   512→      description: 'Miai Ltd Construction was contracted to design and construct a comprehensive road network for the Freda Rebecca Gold Mine expansion project. This included main access roads capable of supporting 100-tonne mining trucks, as well as internal haul roads connecting the open pit to the processing plant.\n\nThe project required specialized compaction techniques to handle extreme axle loads, and innovative drainage solutions to manage water runoff in the mining environment. All work was completed ahead of schedule with zero lost-time injuries.',
+   513→      duration: '8 months (Mar 2023 - Oct 2023)',
+   514→      scopeOfWork: [
+   515→        'Construction of 12km main access road (double seal)',
+   516→        'Construction of 8km internal haul roads',
+   517→        'Installation of 15 cross-drainage culverts',
+   518→        'Construction of reinforced stream crossings (x3)',
+   519→        'Sub-grade preparation and compaction to 98% MDD',
+   520→        'Application of 150mm crushed stone base course',
+   521→        'Double seal surfacing with bituminous premix',
+   522→        'Installation of road safety barriers and signage',
+   523→        'Ongoing maintenance grading program (6 months)',
+   524→      ],
+   525→      equipmentUsed: [
+   526→        'CAT D8T Bulldozer (x3)',
+   527→        'CAT 336F L Excavator (x3)',
+   528→        'CAT 140M Motor Grader (x3)',
+   529→        'Hamm HD+ 120i Compactor (x5)',
+   530→        'Volvo A30G Dump Truck (x8)',
+   531→        'CAT 500B Water Bowser (x2)',
+   532→      ],
+   533→      projectOutcomes: [
+   534→        'Completed 2 weeks ahead of schedule',
+   535→        'Zero lost-time injuries over 8-month period',
+   536→        'Roads designed for 100-tonne axle loads',
+   537→        'Passed independent geotechnical audit with distinction',
+   538→        'Enabled 20% increase in mine haulage efficiency',
+   539→      ],
+   540→      testimonial: {
+   541→        quote: 'The quality of the haul roads constructed by Miai Ltd has significantly improved our operational efficiency. Their team\'s understanding of mining requirements was impressive.',
+   542→        author: 'Michael Ncube',
+   543→        role: 'Operations Director, Freda Rebecca Mine',
+   544→      },
+   545→    },
+   546→    {
+   547→      id: '3',
+   548→      slug: 'chitungwiza-drainage',
+   549→      title: 'Chitungwiza Stormwater Drainage System',
+   550→      category: 'Drainage',
+   551→      image: '/api/placeholder/600/400?text=Chitungwiza+Drainage',
+   552→      location: 'Chitungwiza, Zimbabwe',
+   553→      client: 'Chitungwiza Municipality',
+   554→      status: 'Completed',
+   555→      shortDescription: 'Design and construction of a comprehensive stormwater drainage system serving 50,000+ residents in Chitungwiza.',
+   556→      description: 'This critical municipal infrastructure project addressed chronic flooding issues in Chitungwiza, Zimbabwe\'s third-largest city. The project involved the design and construction of a complete stormwater drainage system including primary and secondary channels, retention basins, and inlet structures.\n\nThe system was designed using advanced hydrological modeling to handle 1-in-50-year flood events. Community engagement was a key component, with local residents participating in the planning process to ensure the system addressed their specific needs.',
+   557→      duration: '14 months (Jun 2022 - Aug 2023)',
+   558→      scopeOfWork: [
+   559→        'Hydrological assessment and drainage design',
+   560→        'Excavation of 18km primary drainage channels',
+   561→        'Construction of 12km secondary drainage network',
+   562→        'Installation of 3 concrete retention basins',
+   563→        'Construction of 85 reinforced concrete inlets',
+   564→        'Installation of precast concrete culverts (x22)',
+   565→        'Channel lining with concrete and rip-rap',
+   566→        'Construction of pedestrian bridges (x6)',
+   567→        'Landscaping and rehabilitation of disturbed areas',
+   568→      ],
+   569→      equipmentUsed: [
+   570→        'CAT 320F L Excavator (x5)',
+   571→        'CAT D8T Bulldozer (x2)',
+   572→        'CAT 950M Wheel Loader (x2)',
+   573→        'Volvo A30G Dump Truck (x6)',
+   574→        'Hamm HD+ 120i Compactor (x2)',
+   575→        'CAT 500B Water Bowser (x2)',
+   576→        'Liebherr LTM 1100 Crane (x1)',
+   577→      ],
+   578→      projectOutcomes: [
+   579→        'Eliminated chronic flooding in 3 wards',
+   580→        'Improved sanitation and public health outcomes',
+   581→        'System designed for 1-in-50-year flood capacity',
+   582→        'Created 150+ local jobs during construction',
+   583→        'Won Excellence in Civil Engineering Award 2023',
+   584→      ],
+   585→      testimonial: {
+   586→        quote: 'This drainage project has transformed our city. Areas that were constantly flooded during the rainy season are now completely safe. The community is deeply grateful.',
+   587→        author: 'Councillor Grace Dube',
+   588→        role: 'Chairperson, Chitungwiza Town Council',
+   589→      },
+   590→    },
+   591→    {
+   592→      id: '4',
+   593→      slug: 'bulawayo-nkayi-road-rehab',
+   594→      title: 'Bulawayo-Nkayi Road Rehabilitation',
+   595→      category: 'Road Rehabilitation',
+   596→      image: '/api/placeholder/600/400?text=Bulawayo+Nkayi+Road',
+   597→      location: 'Bulawayo to Nkayi, Zimbabwe',
+   598→      client: 'Zimbabwe National Roads Administration (ZINARA)',
+   599→      status: 'Completed',
+   600→      shortDescription: 'Rehabilitation of 120km deteriorated rural road including re-graveling, drainage improvements, and bridge repairs.',
+   601→      description: 'The Bulawayo-Nkayi road is a vital link connecting rural communities in Matabeleland North to Bulawayo, the region\'s largest city. Years of heavy use and insufficient maintenance had left the road in poor condition, significantly affecting access to markets, healthcare, and education.\n\nMiai Ltd was engaged to carry out comprehensive rehabilitation works, including reconstruction of failed sections, improved drainage, bridge repairs, and application of new gravel surfacing. The project included a community-based maintenance training program.',
+   602→      duration: '10 months (Apr 2023 - Feb 2024)',
+   603→      scopeOfWork: [
+   604→        'Road condition assessment and rehabilitation design',
+   605→        'Reconstruction of 28km of failed road sections',
+   606→        'Grading and reshaping of remaining 92km',
+   607→        'Re-graveling with 150mm quality gravel layer',
+   608→        'Improvement of 35 drainage structures',
+   609→        'Repair of 4 low-level river crossings',
+   610→        'Construction of 2 new drifts',
+   611→        'Installation of road furniture and signage',
+   612→        'Community maintenance training (3 workshops)',
+   613→      ],
+   614→      equipmentUsed: [
+   615→        'CAT 140M Motor Grader (x3)',
+   616→        'CAT D8T Bulldozer (x2)',
+   617→        'CAT 950M Wheel Loader (x2)',
+   618→        'CAT 420F2 Backhoe Loader (x2)',
+   619→        'Volvo A30G Dump Truck (x5)',
+   620→        'Hamm HD+ 120i Compactor (x2)',
+   621→      ],
+   622→      projectOutcomes: [
+   623→        'Reduced travel time by 45%',
+   624→        'Improved road safety for school buses and ambulances',
+   625→        'Connected 15,000+ rural residents to markets',
+   626→        'Trained 120 community members in road maintenance',
+   627→        'All-weather access achieved for the corridor',
+   628→      ],
+   629→      testimonial: null,
+   630→    },
+   631→    {
+   632→      id: '5',
+   633→      slug: 'hwy-industrial-site-prep',
+   634→      title: 'Highway Industrial Park Site Preparation',
+   635→      category: 'Site Clearing',
+   636→      image: '/api/placeholder/600/400?text=Industrial+Park+Site',
+   637→      location: 'Harare South, Zimbabwe',
+   638→      client: 'Highway Development Corporation',
+   639→      status: 'Completed',
+   640→      shortDescription: 'Complete site preparation for a 50-hectare industrial park including clearing, grading, and infrastructure installation.',
+   641→      description: 'Miai Ltd Construction was responsible for the complete site preparation of a 50-hectare industrial park development in Harare South. The project involved clearing indigenous vegetation, bulk earthworks to achieve design levels, installation of stormwater drainage, and construction of internal road networks.\n\nEnvironmental management was a priority, with comprehensive environmental impact assessments conducted and mitigation measures implemented throughout the project. Topsoil was preserved for later landscaping use.',
+   642→      duration: '6 months (Sep 2023 - Feb 2024)',
+   643→      scopeOfWork: [
+   644→        'Environmental impact assessment and management plan',
+   645→        'Clearing and grubbing of 50 hectares',
+   646→        'Topsoil stripping and stockpiling (120,000 m³)',
+   647→        'Bulk earthworks: 800,000 m³ cut to fill',
+   648→        'Fine grading to design levels (±25mm tolerance)',
+   649→        'Installation of 4.5km stormwater drainage pipes',
+   650→        'Construction of internal road network (3.2km)',
+   651→        'Installation of underground utilities ducting',
+   652→        'Final landscaping and reinstatement',
+   653→      ],
+   654→      equipmentUsed: [
+   655→        'CAT D8T Bulldozer (x3)',
+   656→        'CAT 336F L Excavator (x4)',
+   657→        'CAT 140M Motor Grader (x2)',
+   658→        'CAT 950M Wheel Loader (x2)',
+   659→        'Volvo A30G Dump Truck (x8)',
+   660→        'Hamm HD+ 120i Compactor (x3)',
+   661→        'CAT 420F2 Backhoe Loader (x2)',
+   662→      ],
+   663→      projectOutcomes: [
+   664→        'Site ready for construction 2 weeks early',
+   665→        'Zero environmental incidents',
+   666→        'Recycled 95% of cleared vegetation as mulch',
+   667→        'Achieved design levels across entire 50ha site',
+   668→        'Client praised quality of finished platform',
+   669→      ],
+   670→      testimonial: {
+   671→        quote: 'Miai Ltd delivered an exceptional site preparation package. The platform quality exceeded our expectations and the project was completed ahead of schedule.',
+   672→        author: 'David Chen',
+   673→        role: 'Project Director, Highway Development Corp',
+   674→      },
+   675→    },
+   676→    {
+   677→      id: '6',
+   678→      slug: 'mutirikwi-dam-access',
+   679→      title: 'Mutirikwi Dam Access Road & Civil Works',
+   680→      category: 'Civil Engineering',
+   681→      image: '/api/placeholder/600/400?text=Mutirikwi+Dam+Access',
+   682→      location: 'Masvingo, Zimbabwe',
+   683→      client: 'Zimbabwe National Water Authority (ZINWA)',
+   684→      status: 'Ongoing',
+   685→      shortDescription: 'Construction of all-weather access road and civil works for the Mutirikwi Dam rehabilitation project.',
+   686→      description: 'This multi-disciplinary project supports the major rehabilitation of the Mutirikwi Dam, Zimbabwe\'s second-largest inland water body. Miai Ltd\'s scope includes construction of a 15km all-weather access road, creation of contractor staging areas, and various civil engineering works to support the main dam rehabilitation contractor.\n\nThe project operates in an environmentally sensitive area adjacent to Lake Mutirikwi Recreational Park, requiring strict environmental controls and close coordination with wildlife authorities.',
+   687→      duration: '18 months (Nov 2023 - Apr 2025)',
+   688→      scopeOfWork: [
+   689→        'Construction of 15km all-weather access road',
+   690→        'Installation of 4 temporary river crossings',
+   691→        'Construction of 2 contractor staging areas (5ha each)',
+   692→        'Bulk earthworks for dam access platforms',
+   693→        'Construction of sediment control structures',
+   694→        'Installation of environmental protection measures',
+   695→        'Rehabilitation of existing damaged road sections',
+   696→        'Construction of 3 permanent reinforced concrete culverts',
+   697→      ],
+   698→      equipmentUsed: [
+   699→        'CAT D8T Bulldozer (x2)',
+   700→        'CAT 336F L Excavator (x3)',
+   701→        'CAT 140M Motor Grader (x2)',
+   702→        'CAT 950M Wheel Loader (x2)',
+   703→        'Volvo A30G Dump Truck (x6)',
+   704→        'Hamm HD+ 120i Compactor (x2)',
+   705→        'CAT 500B Water Bowser (x1)',
+   706→        'Liebherr LTM 1100 Crane (x1)',
+   707→      ],
+   708→      projectOutcomes: [
+   709→        'Provided critical access for dam rehabilitation works',
+   710→        'Environmental compliance maintained throughout',
+   711→        'Zero wildlife incidents during construction',
+   712→        'Created access for emergency services to dam area',
+   713→      ],
+   714→      testimonial: null,
+   715→    },
+   716→  ]
+   717→}
