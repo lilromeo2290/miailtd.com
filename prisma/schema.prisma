@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  shortDesc   String
+  description String
+  scope       String   // JSON array of scope items
+  benefits    String   // JSON array of benefit items
+  equipment   String   // JSON array of equipment used
+  icon        String   // Lucide icon name
+  image       String   // URL or path
+  order       Int      @default(0)
+  faqs        String   // JSON array of FAQ objects
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Equipment {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String
+  category        String   // Excavators, Bulldozers, etc.
+  model           String
+  description     String
+  specifications  String   // JSON object of specs
+  operatingCap    String
+  availability    String   // Available, Rented, Maintenance
+  dailyRate       Float?
+  weeklyRate      Float?
+  monthlyRate     Float?
+  operatorIncluded Boolean @default(false)
+  image           String
+  gallery         String   // JSON array of image URLs
+  order           Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  category    String   // Road Construction, Earthworks, etc.
+  client      String
+  location    String
+  description String
+  scope       String   // JSON array
+  duration    String
+  equipment   String   // JSON array of equipment names
+  outcomes    String   // JSON array
+  images      String   // JSON array of image URLs
+  testimonial String?
+  featured    Boolean  @default(false)
+  status      String   @default("Completed") // Completed, Ongoing
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  company   String
+  role      String
+  content   String
+  rating    Int      @default(5)
+  image     String?
+  featured  Boolean  @default(false)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsArticle {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  content     String
+  category    String   // Announcement, Industry News, Project Update, Tips
+  image       String
+  author      String
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model JobListing {
+  id          String   @id @default(cuid())
+  title       String
+  department  String
+  location    String
+  type        String   // Full-time, Part-time, Contract, Internship
+  description String
+  requirements String  // JSON array
+  benefits    String   // JSON array
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model QuoteRequest {
+  id              String   @id @default(cuid())
+  fullName        String
+  company         String
+  email           String
+  phone           String
+  serviceType     String
+  equipmentNeeded String?
+  projectLocation String
+  projectDesc     String
+  duration        String?
+  startDate       String?
+  fileName        String?
+  status          String   @default("New") // New, In Review, Quoted, Completed
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  fullName  String
+  email     String
+  phone     String
+  subject   String
+  message   String
+  status    String   @default("New")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsletterSubscription {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model JobApplication {
+  id          String   @id @default(cuid())
+  jobId       String
+  fullName    String
+  email       String
+  phone       String
+  coverLetter String?
+  fileName    String?
+  status      String   @default("New")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model EquipmentInquiry {
+  id              String   @id @default(cuid())
+  equipmentId     String
+  fullName        String
+  company         String
+  email           String
+  phone           String
+  rentalPeriod    String
+  projectLocation String
+  notes           String?
+  status          String   @default("New")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
