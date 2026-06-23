@@ -56,9 +56,23 @@ const leadership = [
   {
     initials: 'RD',
     color: 'bg-safety-orange',
-    name: 'Mr. Raphael Dzisenu',
-    title: 'Founder & Chief Executive Officer',
-    bio: 'Over two decades of experience in the construction industry. Mr. Dzisenu\'s determination to achieve the best results propelled him to establish Deralph Engineering Services — which has delivered outstanding projects for more than fifteen years — and subsequently founded Miai Ltd Company to expand the company\'s reach into construction, mining, equipment rentals, and farming services.',
+    name: 'Raphael Dzisenu',
+    title: 'Chief Executive Officer',
+    bio: 'A Civil Engineer in good standing for the past fifteen years, specialized in roads and earthworks. His determination to achieve the best results propelled him to establish both Deralph Engineering Services and Miai Ltd Company.',
+  },
+  {
+    initials: 'SK',
+    color: 'bg-navy',
+    name: 'Senyo Kofi Dzakah',
+    title: 'Director of Finance and Administration',
+    bio: 'Over ten years of experience in accounting and finance. He brings strong financial leadership and administrative expertise to support the company\'s growth and operational efficiency.',
+  },
+  {
+    initials: 'JF',
+    color: 'bg-navy-light',
+    name: 'Joseph Fenuku',
+    title: 'Director of Operations',
+    bio: 'Over fifteen years of experience in engineering. He oversees day-to-day operations across all project sites, ensuring every project is delivered to the highest standards.',
   },
 ]
 
@@ -254,7 +268,7 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-sm mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {leadership.map((person) => (
               <Card key={person.name} className="border-0 shadow-md hover:shadow-xl transition-shadow">
                 <CardContent className="p-6 text-center">
