@@ -54,32 +54,11 @@ const coreValues = [
 
 const leadership = [
   {
-    initials: 'JM',
+    initials: 'RD',
     color: 'bg-safety-orange',
-    name: 'John Mbeki',
-    title: 'Chief Executive Officer',
-    bio: '30+ years in civil engineering and construction management. John founded Miai Ltd with a single bulldozer and a vision to build the region\'s most reliable infrastructure company.',
-  },
-  {
-    initials: 'SW',
-    color: 'bg-navy',
-    name: 'Sarah Williams',
-    title: 'Chief Operating Officer',
-    bio: 'Expert in operational efficiency and fleet management. Sarah oversees day-to-day operations across all project sites, ensuring deadlines and budgets are always met.',
-  },
-  {
-    initials: 'DO',
-    color: 'bg-navy-light',
-    name: 'David Okafor',
-    title: 'Chief Engineer',
-    bio: 'Specialist in road design and geotechnical engineering. David leads our engineering team, bringing technical precision to every highway, bridge, and earthworks project.',
-  },
-  {
-    initials: 'AH',
-    color: 'bg-steel-grey',
-    name: 'Amira Hassan',
-    title: 'HSE Director',
-    bio: 'NEBOSH certified with 20+ years in construction safety. Amira has built an industry-leading health, safety, and environmental programme that keeps our incident rate at zero.',
+    name: 'Mr. Raphael Dzisenu',
+    title: 'Founder & Chief Executive Officer',
+    bio: 'Over two decades of experience in the construction industry. Mr. Dzisenu\'s determination to achieve the best results propelled him to establish Deralph Engineering Services — which has delivered outstanding projects for more than fifteen years — and subsequently founded Miai Ltd Company to expand the company\'s reach into construction, mining, equipment rentals, and farming services.',
   },
 ]
 
@@ -92,13 +71,11 @@ const certifications = [
 ]
 
 const milestones = [
-  { year: '1998', text: 'Founded as a small earthworks contractor with a single excavator and a team of five.' },
-  { year: '2005', text: 'Completed first major highway project — a 32 km stretch that set our reputation for excellence.' },
-  { year: '2010', text: 'Launched the equipment rental division, expanding our fleet to over 50 machines.' },
-  { year: '2015', text: 'Achieved ISO 9001 and ISO 14001 certifications, affirming our commitment to quality and the environment.' },
-  { year: '2018', text: 'Expanded operations to three new regional offices, broadening our service coverage area.' },
-  { year: '2021', text: 'Celebrated our 500th completed project — a landmark milestone for the entire Miai Ltd family.' },
-  { year: '2024', text: 'Commissioned a new state-of-the-art asphalt plant, doubling our daily production capacity.' },
+  { year: '~2005', text: 'Mr. Raphael Dzisenu established Deralph Engineering Services, laying the foundation for over fifteen years of successful construction and engineering projects.' },
+  { year: 'Sep 2021', text: 'Miai Ltd Company was officially incorporated to complement Deralph Engineering Services, expanding into construction, mining, equipment rentals, and farming services.' },
+  { year: '2022', text: 'Delivered our first major projects under the Miai Ltd banner, quickly building a reputation for quality and reliability across multiple sectors.' },
+  { year: '2023', text: 'Grew our equipment fleet and expanded service offerings, strengthening our position as a topnotch construction and mining solutions provider.' },
+  { year: '2024', text: 'Continued to scale operations and deliver exceptional results, reinforcing our commitment to excellence and client satisfaction.' },
 ]
 
 /* ─────────────── component ─────────────── */
@@ -134,7 +111,7 @@ export default function AboutSection() {
             About <span className="text-safety-orange">Miai Ltd</span> Construction
           </h1>
           <p className="text-white/70 text-lg max-w-2xl">
-            25+ years building the infrastructure that connects communities, drives commerce, and transforms landscapes.
+            Creating solutions to your construction, mining, equipment rental, and farming needs.
           </p>
         </div>
       </section>
@@ -149,26 +126,28 @@ export default function AboutSection() {
                 Our Story
               </Badge>
               <h2 className="text-2xl md:text-3xl font-bold text-navy mb-6">
-                From a Single Bulldozer to a Regional Powerhouse
+                Building Solutions for Your Construction Needs
               </h2>
               <div className="space-y-4 text-steel-grey leading-relaxed">
                 <p>
-                  In 1998, Miai Ltd Construction & Equipment was born from a simple belief: that every road,
-                  every foundation, and every parcel of land deserves to be shaped with skill, care, and
-                  accountability. What started as a small earthworks contractor with a single bulldozer and a
-                  team of five has grown into one of the region&apos;s most trusted infrastructure companies.
+                  Miai Ltd Company was founded in September 2021 and has accomplished so much over the years.
+                  We are in business to create solutions to your construction needs. Before the incorporation of
+                  Miai Ltd Company, our C.E.O. had already established a company called Deralph Engineering
+                  Services which has done several works for more than fifteen years before the birth of Miai
+                  Ltd Company.
                 </p>
                 <p>
-                  Over the past two and a half decades, we have completed more than 500 projects spanning highway
-                  construction, earthworks, site preparation, and asphalt paving. Our fleet has expanded from that
-                  first machine to over 120 pieces of heavy equipment, and our team now includes engineers,
-                  project managers, safety officers, and skilled operators who share a single mission: to deliver
-                  exceptional results on every job, every time.
+                  Even though Deralph Engineering Services is still in existence, Miai Ltd Company was
+                  established to be topnotch in construction, mining, equipment rentals, and farming services
+                  to complement Deralph Engineering Services. This strategic expansion allows us to offer a
+                  broader range of solutions to our clients, drawing on decades of accumulated expertise and
+                  industry knowledge.
                 </p>
                 <p>
-                  Today, Miai Ltd is not just a contractor — we are a partner. Governments, mining houses,
-                  commercial developers, and communities across the region rely on us to turn their plans into
-                  reality, safely, on time, and on budget.
+                  Our founder and C.E.O., Mr. Raphael Dzisenu, has been in the construction industry for the
+                  past two decades. His determination to achieve the best results propelled him to establish
+                  the Miai Ltd Company, building on the solid foundation laid by Deralph Engineering Services
+                  to create a truly comprehensive construction and engineering enterprise.
                 </p>
               </div>
             </div>
@@ -178,7 +157,7 @@ export default function AboutSection() {
               <div className="aspect-[4/3] rounded-2xl bg-navy-light overflow-hidden flex items-center justify-center">
                 <div className="text-center p-8">
                   <img src="/logo.jpg" alt="Miai Ltd" className="w-24 h-24 object-contain mx-auto mb-4 brightness-0 invert" />
-                  <p className="text-white/60 text-sm">25+ years of excellence</p>
+                  <p className="text-white/60 text-sm">Creating solutions since 2021</p>
                 </div>
               </div>
               {/* floating stat card */}
@@ -276,7 +255,7 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-sm mx-auto">
             {leadership.map((person) => (
               <Card key={person.name} className="border-0 shadow-md hover:shadow-xl transition-shadow">
                 <CardContent className="p-6 text-center">
