@@ -173,7 +173,7 @@ async function seed() {
       weeklyRate: 6500,
       monthlyRate: 22000,
       operatorIncluded: true,
-      image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&q=80',
+      image: '/excavator-30-tons.jpg',
       gallery: JSON.stringify([]),
       order: 1,
     },
