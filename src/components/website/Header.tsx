@@ -11,9 +11,6 @@ const navItems: { label: string; page: PageSection; hasSubmenu?: boolean }[] = [
   { label: 'Services', page: 'services', hasSubmenu: true },
   { label: 'Equipment', page: 'equipment', hasSubmenu: true },
   { label: 'Projects', page: 'projects' },
-  { label: 'HSE', page: 'hse' },
-  { label: 'News', page: 'news' },
-  { label: 'Careers', page: 'careers' },
 ]
 
 export default function Header() {
