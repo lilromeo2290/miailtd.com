@@ -170,7 +170,7 @@ export default function TestimonialsSection() {
         <div className="text-center mb-12 lg:mb-16">
           <span className="text-safety-orange font-semibold text-sm uppercase tracking-wider">Client Feedback</span>
           <h2 className="text-3xl lg:text-4xl font-bold text-white mt-3">
-            What Our Clients Say
+            Clients and Descriptions
           </h2>
           <p className="text-white/50 mt-3 max-w-xl mx-auto">
             We take pride in building lasting relationships with our clients through consistent delivery and exceptional results.
