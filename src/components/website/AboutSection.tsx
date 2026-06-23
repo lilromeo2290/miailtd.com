@@ -77,11 +77,9 @@ const leadership = [
 ]
 
 const certifications = [
-  { label: 'ISO 9001:2015', sub: 'Quality Management', icon: FileCheck2 },
-  { label: 'ISO 14001:2015', sub: 'Environmental Management', icon: Leaf },
-  { label: 'ISO 45001:2018', sub: 'Occupational Health & Safety', icon: ShieldCheck },
-  { label: 'Contractor Registration', sub: 'Licensed & Bonded', icon: Building2 },
-  { label: 'Environmental Compliance', sub: 'Full Certification', icon: Award },
+  { label: 'Certificate of Incorporation', sub: 'REG No: CS179200921', icon: FileCheck2 },
+  { label: 'Certificate of Registration', sub: 'TIN: C0061200050', icon: Building2 },
+  { label: 'Public Procurement Authority', sub: 'SUPPLIER NO: 061568', icon: Award },
 ]
 
 const milestones = [
@@ -299,7 +297,7 @@ export default function AboutSection() {
             <h2 className="text-2xl md:text-3xl font-bold text-navy">Certifications & Licenses</h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid sm:grid-cols-3 gap-4">
             {certifications.map((cert) => (
               <Card key={cert.label} className="border-0 shadow-md hover:shadow-xl transition-shadow text-center">
                 <CardContent className="p-6">
