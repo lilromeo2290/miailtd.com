@@ -1,10 +1,7 @@
 'use client'
 
 import { Phone, Mail, MapPin, Clock, Facebook, Twitter, Linkedin, Youtube, ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { useNavigation } from '@/lib/store'
-import { useState } from 'react'
 
 const quickLinks = [
   { label: 'Road Construction', page: 'services' as const },
@@ -26,27 +23,11 @@ const serviceLinks = [
 
 export default function Footer() {
   const { setPage } = useNavigation()
-  const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
-
   const handleNav = (page: 'services' | 'equipment' | 'projects' | 'quote' | 'careers' | 'hse' | 'about' | 'contact') => {
     setPage(page)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const handleNewsletter = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email) {
-      fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-      setSubscribed(true)
-      setEmail('')
-      setTimeout(() => setSubscribed(false), 3000)
-    }
-  }
 
   return (
     <footer className="bg-navy text-white/80">
@@ -135,31 +116,6 @@ export default function Footer() {
                 <span>Mon - Fri: 8:00 AM - 5:00 PM</span>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Newsletter Bar */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-              <h3 className="text-white font-semibold text-sm">Subscribe to our Newsletter</h3>
-              <p className="text-white/50 text-xs mt-0.5">Get the latest project updates and industry insights</p>
-            </div>
-            <form onSubmit={handleNewsletter} className="flex gap-2 w-full md:w-auto">
-              <Input
-                type="email"
-                placeholder="Your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/40 w-full md:w-64 h-9 text-sm"
-              />
-              <Button type="submit" size="sm" className="cta-gradient text-white border-0 whitespace-nowrap">
-                {subscribed ? 'Subscribed!' : 'Subscribe'}
-              </Button>
-            </form>
           </div>
         </div>
       </div>
