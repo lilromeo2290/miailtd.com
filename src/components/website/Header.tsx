@@ -38,15 +38,15 @@ export default function Header() {
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1.5">
               <Phone className="w-3.5 h-3.5 text-safety-orange" />
-              +1 (555) 123-4567
+              024 479 2082
             </span>
             <span className="flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5 text-safety-orange" />
-              info@miailtd.com
+              miailtd21@gmail.com
             </span>
             <span className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-safety-orange" />
-              Mon - Fri: 7:00 AM - 6:00 PM
+              Mon - Fri: 8:00 AM - 5:00 PM
             </span>
           </div>
           <div className="flex items-center gap-3">
